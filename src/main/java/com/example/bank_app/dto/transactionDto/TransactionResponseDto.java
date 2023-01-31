@@ -1,4 +1,4 @@
-package com.example.bank_app.dto;
+package com.example.bank_app.dto.transactionDto;
 
 import java.math.BigDecimal;
 import java.time.Instant;

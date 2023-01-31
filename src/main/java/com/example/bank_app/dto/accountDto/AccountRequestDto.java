@@ -1,7 +1,6 @@
-package com.example.bank_app.dto.AccountRequestDto;
+package com.example.bank_app.dto.accountDto;
 
 import com.example.bank_app.entity.Transaction;
-import jakarta.persistence.Entity;
 import lombok.*;
 
 import java.time.Instant;

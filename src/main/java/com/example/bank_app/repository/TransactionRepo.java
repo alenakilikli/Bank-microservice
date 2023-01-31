@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface TransactionsRepo extends JpaRepository<Transaction,Long> {
+public interface TransactionRepo extends JpaRepository<Transaction,Long> {
     List<Transaction> findAllByAccountTo(String accountTo);
 
 

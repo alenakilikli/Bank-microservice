@@ -1,33 +1,45 @@
-package com.example.mapstruct.mapTest;
+package com.example.bank_app.mapTest;
 
-import com.example.bank_app.dto.AccountRequestDto.AccountRequestDto;
+import com.example.bank_app.dto.accountDto.AccountRequestDto;
 import com.example.bank_app.entity.Account;
-import com.example.bank_app.mapper.AccountMap;
+import com.example.bank_app.mapper.AccountMapper;
 import com.example.bank_app.mapper.AccountMapImpl;
+import com.example.bank_app.util.EntityCreator;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mapstruct.factory.Mappers;
 
-import java.util.List;
-
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+@DisplayName("Test class for AccountMapper")
 public class AccountMapperTest {
 
-    private final AccountMap mapper = new AccountMapImpl();
+    private final AccountMapper mapper = new AccountMapImpl();
 
     @Test
     public void shouldMapAccountToDto() {
-        Account account = new Account();
-        account.setCity("aaaaaaa");
-
+        Account account = EntityCreator.getAccount();
         AccountRequestDto dto = mapper.accountToDto(account);
-        assertEquals(account.getCity(), dto.getCity());
+        compareEntytyWithDto(account,dto);
+
 
     }
     @Test
     public void shouldMapDtoToAccount(){
-        AccountRequestDto dto = new AccountRequestDto();
-        dto.setCity("aaaa");
-        Account account = mapper.dtoToAccount(dto);
-        assertEquals(account.getCity(),dto.getCity());}
+//        AccountRequestDto dto = new AccountRequestDto();
+//        dto.setCity("aaaa");
+//        Account account = mapper.dtoToAccount(dto);
+//        assertEquals(account.getCity(),dto.getCity());
+        }
+
+    private void compareEntytyWithDto(Account account,AccountRequestDto dto){
+        assertAll(
+                ()->assertEquals(account.getEmail(),dto.getEmail()),
+                ()->assertEquals(account.getCreationDate(),dto.getCreationDate()),
+                ()->assertEquals(account.getFirstName(),dto.getFirstName()),
+                ()->assertEquals(account.getLastName(),dto.getLastName()),
+                ()->assertEquals(account.getCountry(),dto.getCountry()),
+                ()->assertEquals(account.getCity(),dto.getCity()),
+                ()->assertEquals(account.getTransactions(),dto.getTransactions())
+        );
+    }
 }

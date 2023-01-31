@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bank
+    username: postgres
+    password: root
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+
+  liquibase:
+    enabled: false
+    change-log: db/changelog/db.changelog.xml
+    drop-first: true
+
+server:
+  port: 8088
+  error:
+    whitelabel:
+      enabled: false
+
+

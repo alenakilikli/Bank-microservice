@@ -1,2 +1,36 @@
-package com.example.bank_app.entity;public class Transaction {
+package com.example.bank_app.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.UUID;
+
+@ToString
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "transactions")
+public class Transaction {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", nullable = false)
+    private UUID id;
+    @Column(name = "date_time")
+    private Instant dateTime;
+    @Column(name = "transactions_type")
+    private String type;
+    @Column(name = "amount")
+    private BigDecimal amount;
+    @Column(name = "account_from")
+    private String accountFrom;
+    @Column(name = "account_to")
+    private String accountTo;
+
+
 }
