@@ -3,6 +3,7 @@ package com.example.bank_app.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
@@ -13,8 +14,8 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @Entity
-@NoArgsConstructor
 @Table(name = "account")
+@NoArgsConstructor
 public class Account {
 
 
@@ -37,6 +38,7 @@ public class Account {
     @Column(name = "amounts")
     private BigDecimal amountOfMoney;
     @ManyToMany
+    @JoinColumn(name = "id")
     private List<Transaction> transactions;
 
 }
