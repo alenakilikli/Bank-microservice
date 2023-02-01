@@ -2,6 +2,7 @@ package com.example.bank_app.util;
 
 import com.example.bank_app.entity.Account;
 import com.example.bank_app.entity.Transaction;
+import com.example.bank_app.entity.type.TransactionType;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -27,7 +28,7 @@ public class EntityCreator {
         Transaction transaction = Transaction.builder()
                 .id(UUID.fromString("66664999-3333-1111-a456-426655440000"))
                 .dateTime(Instant.parse("2021-02-15T18:35:24.00Z"))
-                .type("withdraw")
+                .type(TransactionType.WITHDRAW)
                 .amount(new BigDecimal("30400"))
                 .accountFrom("acc1")
                 .accountTo("acc2")

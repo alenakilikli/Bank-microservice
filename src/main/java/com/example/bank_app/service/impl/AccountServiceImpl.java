@@ -8,35 +8,27 @@ import com.example.bank_app.repository.AccountRepo;
 import com.example.bank_app.repository.TransactionRepo;
 import com.example.bank_app.service.AccountService;
 import com.example.bank_app.utils.ValidationMessages;
-import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-@AllArgsConstructor
-@NoArgsConstructor
 public class AccountServiceImpl implements AccountService {
 
-    private AccountRepo accountRepo;
+    private final AccountRepo accountRepo;
 
-    private TransactionRepo transactionRepo;
-
-    private AccountMapper accountMap;
+    private final TransactionRepo transactionRepo;
+    private final AccountMapper accountMap;
 
 
     @Override
-    @Transactional
     public AccountRequestDto createAccount(AccountRequestDto accountDto) {
         Account account1 = accountMap.dtoToAccount(accountDto);
         account1.setId(UUID.randomUUID());
@@ -47,7 +39,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<AccountRequestDto> getAccount(String city, String date) {
+    public List<AccountRequestDto> getAccount(String city, String date, String sort) {
         List<Account> accounts = accountRepo.findAll();
         var accountsDto = accounts.stream().sorted(Comparator.comparing(Account::getId)).toList();
         return accountMap.accountsToDto(accountsDto);
@@ -61,15 +53,14 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void update(Long id, AccountRequestDto dto) {
-        Account account = accountRepo.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        account.setEmail(dto.getEmail());
-        account.setCreationDate(Instant.now());
-        account.setFirstName(dto.getFirstName());
-        account.setLastName(dto.getLastName());
-        account.setCountry(dto.getCountry());
-        account.setCity(dto.getCity());
-        account.setTransactions(dto.getTransactions());
-        accountRepo.save(account);
+//        Account account = accountRepo.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+//        account.setEmail(dto.getEmail());
+//        account.setCreationDate(Instant.now());
+//        account.setFirstName(dto.getFirstName());
+//        account.setLastName(dto.getLastName());
+//        account.setCountry(dto.getCountry());
+//        account.setCity(dto.getCity());
+//        accountRepo.save(account);
     }
 
     @Override

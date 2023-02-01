@@ -1,6 +1,5 @@
 package com.example.bank_app.service.impl;
 
-import com.example.bank_app.dto.accountDto.AccountRequestDto;
 import com.example.bank_app.dto.transactionDto.TransactionResponseDto;
 import com.example.bank_app.entity.Transaction;
 import com.example.bank_app.mapper.TransactionMapper;
@@ -18,11 +17,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
 
-    private final TransactionRepo transactionRepo;
-    private final TransactionMapper transactionMapper;
+    private TransactionRepo transactionRepo;
+    private TransactionMapper transactionMapper;
 
     @Override
-    public List<TransactionResponseDto> getTransaction() {
+    public List<TransactionResponseDto> getTransaction(String date, String type, String sort) {
         List<Transaction> transactions = transactionRepo.findAll();
         var transactionsList =  transactions.stream().sorted(Comparator.comparing(Transaction::getId)).toList();
         return transactionMapper.transactionsToDto(transactionsList);

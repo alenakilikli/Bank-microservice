@@ -1,16 +1,14 @@
 package com.example.bank_app.entity;
 
 import com.example.bank_app.entity.type.TransactionType;
-import jakarta.persistence.*;
 import lombok.*;
 
-
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
-@ToString
 @Getter
 @Setter
 @Builder

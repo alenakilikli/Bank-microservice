@@ -10,7 +10,7 @@ public interface AccountService {
 
     AccountRequestDto createAccount(AccountRequestDto acountRequestDto);
 
-    List<AccountRequestDto> getAccount(String city, String date);
+    List<AccountRequestDto> getAccount(String city, String date,String sort);
 
     AccountRequestDto findAccountById(Long id);
 

@@ -3,8 +3,8 @@ package com.example.bank_app.controller;
 import com.example.bank_app.dto.accountDto.AccountRequestDto;
 import com.example.bank_app.entity.Account;
 import com.example.bank_app.service.AccountService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,11 +12,10 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class AccountController {
 
-    private AccountService accountService;
+    private final AccountService accountService;
 
 
     @PostMapping("/accounts")
@@ -31,7 +30,7 @@ public class AccountController {
     public List<AccountRequestDto> getAccounts(@RequestParam(value = "date", required = false) String date,
                                                @RequestParam(value = "city", required = false) String city,
                                                @RequestParam(value = "sort", required = false) String sort) {
-        return accountService.getAccount(city, date);
+        return accountService.getAccount(city, date,sort);
 
     }
 
