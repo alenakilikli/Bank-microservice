@@ -6,8 +6,9 @@ import lombok.*;
 
 import java.time.Instant;
 
-@RequiredArgsConstructor
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Setter
 @Getter
 public class AccountRequestDto {
@@ -15,7 +16,7 @@ public class AccountRequestDto {
 
     private String email;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Instant creationDate;
 
     private String firstName;

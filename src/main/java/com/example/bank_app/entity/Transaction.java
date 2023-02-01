@@ -2,12 +2,12 @@ package com.example.bank_app.entity;
 
 import com.example.bank_app.entity.type.TransactionType;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -19,9 +19,10 @@ import java.util.UUID;
 public class Transaction {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "id", nullable = false)
-    private UUID id;
+    private String id;
 
     @Column(name = "date_time")
     private Instant dateTime;

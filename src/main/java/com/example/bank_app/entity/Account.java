@@ -2,6 +2,7 @@ package com.example.bank_app.entity;
 
 import javax.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -13,15 +14,14 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @Entity
-@Table(name = "account")
+@Table(name = "accounts")
 @NoArgsConstructor
 public class Account {
 
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Id @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     @Column(name = "id", nullable = false)
-    private UUID id;
+    private String id;
 
     @Column(name = "email")
     private String email;

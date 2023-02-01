@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +31,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountRequestDto createAccount(AccountRequestDto accountDto) {
         Account account1 = accountMap.dtoToAccount(accountDto);
-        account1.setId(UUID.randomUUID());
+        account1.setId(account1.getId());
 
         accountRepo.save(account1);
 
@@ -39,7 +39,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<AccountRequestDto> getAccount(String city, String date, String sort) {
+    public List<AccountRequestDto> getAccounts(String city, String date, String sort) {
         List<Account> accounts = accountRepo.findAll();
         var accountsDto = accounts.stream().sorted(Comparator.comparing(Account::getId)).toList();
         return accountMap.accountsToDto(accountsDto);
@@ -53,14 +53,14 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void update(Long id, AccountRequestDto dto) {
-//        Account account = accountRepo.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-//        account.setEmail(dto.getEmail());
-//        account.setCreationDate(Instant.now());
-//        account.setFirstName(dto.getFirstName());
-//        account.setLastName(dto.getLastName());
-//        account.setCountry(dto.getCountry());
-//        account.setCity(dto.getCity());
-//        accountRepo.save(account);
+        Account account = accountRepo.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        account.setEmail(dto.getEmail());
+        account.setCreationDate(Instant.now());
+        account.setFirstName(dto.getFirstName());
+        account.setLastName(dto.getLastName());
+        account.setCountry(dto.getCountry());
+        account.setCity(dto.getCity());
+        accountRepo.save(account);
     }
 
     @Override

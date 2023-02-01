@@ -30,7 +30,7 @@ public class AccountController {
     public List<AccountRequestDto> getAccounts(@RequestParam(value = "date", required = false) String date,
                                                @RequestParam(value = "city", required = false) String city,
                                                @RequestParam(value = "sort", required = false) String sort) {
-        return accountService.getAccount(city, date,sort);
+        return accountService.getAccounts(city, date,sort);
 
     }
 

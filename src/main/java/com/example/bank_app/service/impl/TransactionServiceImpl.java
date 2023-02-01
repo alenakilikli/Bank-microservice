@@ -17,8 +17,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
 
-    private TransactionRepo transactionRepo;
-    private TransactionMapper transactionMapper;
+    private final TransactionRepo transactionRepo;
+    private final TransactionMapper transactionMapper;
 
     @Override
     public List<TransactionResponseDto> getTransaction(String date, String type, String sort) {
