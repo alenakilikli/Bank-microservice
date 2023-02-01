@@ -22,16 +22,23 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private UUID id;
+
     @Column(name = "date_time")
     private Instant dateTime;
+
     @Column(name = "transactions_type")
+    @Enumerated(EnumType.STRING)
     private TransactionType type;
+
     @Column(name = "amount")
     private BigDecimal amount;
+
     @Column(name = "account_from")
     private String accountFrom;
+
     @Column(name = "account_to")
     private String accountTo;
+
     @ManyToMany
     @JoinColumn(name = "id")
     private List<Account> account;
