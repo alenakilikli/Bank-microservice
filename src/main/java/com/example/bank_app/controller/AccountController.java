@@ -8,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.List;
 
 @RestController
@@ -27,10 +29,9 @@ public class AccountController {
 
     @GetMapping("/accounts")
     @ResponseStatus(HttpStatus.OK)
-    public List<AccountRequestDto> getAccounts(@RequestParam(value = "date", required = false) String date,
-                                               @RequestParam(value = "city", required = false) String city,
-                                               @RequestParam(value = "sort", required = false) String sort) {
-        return accountService.getAccounts(city, date,sort);
+    public List<AccountRequestDto> getAccounts(Pageable pageable,@RequestParam(value = "date", required = false) Instant date,
+                                               @RequestParam(value = "city", required = false) String city) {
+        return accountService.getAccounts(city, date,pageable);
 
     }
 

@@ -1,11 +1,14 @@
 package com.example.bank_app.dto.transactionDto;
 
-import com.example.bank_app.entity.type.TransactionType;
+import com.example.bank_app.entity.Account;
+import com.example.bank_app.entity.enums.TransactionType;
 import com.fasterxml.jackson.annotation.JsonFormat;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.util.UUID;
 
 @Setter
 @Getter
@@ -14,14 +17,17 @@ import java.time.Instant;
 @AllArgsConstructor
 public class TransactionResponseDto {
 
-    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    public Instant dateTime;
+    private UUID id;
 
-    public TransactionType type;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
+    private String dateTime;
 
-    public BigDecimal amount;
+    private TransactionType type;
 
-    public String accountFrom;
+    private BigDecimal amount;
 
-    public String accountTo;
+    private String accountFrom;
+
+    private String accountTo;
+
 }

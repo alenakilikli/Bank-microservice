@@ -6,16 +6,16 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     show-sql: true
 
   liquibase:
-    enabled: false
+    enabled: true
     change-log: db/changelog/db.changelog.xml
     drop-first: true
 
 server:
-  port: 8088
+  port: 8081
   error:
     whitelabel:
       enabled: false

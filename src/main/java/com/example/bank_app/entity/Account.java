@@ -1,9 +1,10 @@
 package com.example.bank_app.entity;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
@@ -18,10 +19,12 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Account {
 
-    @Id @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
-    @Column(name = "id", nullable = false)
-    private String id;
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID",
+            strategy = "com.example.bank_app.generator.UuidTimeSequenceGenerator")
+    @Column(name = "id")
+    private UUID id;
 
     @Column(name = "email")
     private String email;
@@ -44,8 +47,7 @@ public class Account {
     @Column(name = "amounts")
     private BigDecimal amountOfMoney;
 
-    @ManyToMany
-    @JoinColumn(name = "id")
+    @OneToMany(mappedBy = "account")
     private List<Transaction> transactions;
 
 }

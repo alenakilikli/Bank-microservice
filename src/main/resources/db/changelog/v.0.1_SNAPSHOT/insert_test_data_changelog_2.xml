@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+
+<changeSet author="alenaKilikli" id="insert test data into products table">
+        <insert tableName="accounts">
+            <column name="id" value="2"/>
+            <column name="email" value="alper@gmail.com"/>
+            <column name="creation_date" value="2006-12-18@07:53:34.740+0000"/>
+            <column name="first_name" value="Irina"/>
+            <column name="last_name" value="Ivanova"/>
+            <column name="country" value="Russia"/>
+            <column name="city" value="Siktivkar"/>
+            <column name="amounts" value="5000"/>
+        </insert>
+    <insert tableName="transactions">
+            <column name="id" value="2"/>
+            <column name="date_time" value="2002-12-18@07:53:34.740+0000"/>
+            <column name="transactions_type" value="WITHDRAW"/>
+            <column name="amount" value="21000"/>
+            <column name="account_from" value="acc3"/>
+            <column name="account_to" value="acc4"/>
+        <column name="account_id" value="2"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

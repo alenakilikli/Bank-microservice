@@ -2,7 +2,7 @@ package com.example.bank_app.util;
 
 import com.example.bank_app.dto.accountDto.AccountRequestDto;
 import com.example.bank_app.dto.transactionDto.TransactionResponseDto;
-import com.example.bank_app.entity.type.TransactionType;
+import com.example.bank_app.entity.enums.TransactionType;
 
 import java.math.BigDecimal;
 import java.time.Instant;

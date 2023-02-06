@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="1.0.0" author="alenaKilikli">
+        <!--ACCOUNTS -->
+        <createTable tableName="accounts">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="creation_date" type="DATETIME" defaultValue="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="country" type="varchar(25)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="city" type="varchar(25)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amounts" type="DECIMAL">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+
+        <!--TRANSACTIONS -->
+        <createTable tableName="transactions">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="date_time" type="DATETIME" defaultValue="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transactions_type" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="DECIMAL">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_from" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_to" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_id" type="bigint">
+                <constraints referencedTableName="accounts"
+                             referencedColumnNames="id"
+                             foreignKeyName="TRANSACTIONS_ACCOUNT_ACCOUNTS_ID"/>
+            </column>
+        </createTable>
+
+    </changeSet>
+</databaseChangeLog>

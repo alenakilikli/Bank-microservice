@@ -13,9 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.awt.print.Pageable;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -25,6 +25,7 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepo accountRepo;
 
     private final TransactionRepo transactionRepo;
+
     private final AccountMapper accountMap;
 
 
@@ -39,11 +40,16 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<AccountRequestDto> getAccounts(String city, String date, String sort) {
-        List<Account> accounts = accountRepo.findAll();
-        var accountsDto = accounts.stream().sorted(Comparator.comparing(Account::getId)).toList();
-        return accountMap.accountsToDto(accountsDto);
+    public List<AccountRequestDto> getAccounts( String city,Instant date,Pageable pageable) {
+        return accountMap.accountsToDto(getAccountsSort(city,date,pageable));
     }
+
+    private List<Account>getAccountsSort(String city,Instant date,Pageable pageable){
+        return city!=null||date!=null
+                ? accountRepo.findAllByCreationDateOrCityIgnoreCaseOrderByCreationDateDesc( date, city)
+                :accountRepo.findAll();
+    }
+
 
     @Override
     public AccountRequestDto findAccountById(Long id) {
@@ -68,10 +74,6 @@ public class AccountServiceImpl implements AccountService {
         if (fromAccount == null || toAccount == null || amount.compareTo(new BigDecimal(0)) <= 0) {
             throw new IllegalArgumentException(ValidationMessages.FROM_ACCOUNT_AND_TO_ACCOUNT_SHOULD_NOT_BE_NULL_AND_TRANSFER_AMOUNT_SHOULD_BE_GREATER_THAN_0);
         }
-        if (fromAccount.getAmountOfMoney().compareTo(amount) < 0) {
-            throw new IllegalArgumentException(ValidationMessages.FROM_ACCOUNT_DOES_NOT_CONTAIN_SUFFICIENT_FUNDS);
-        }
-
 
         BigDecimal fromAccountBalance = fromAccount.getAmountOfMoney().subtract(amount);
         fromAccount.setAmountOfMoney(fromAccountBalance);
@@ -79,9 +81,7 @@ public class AccountServiceImpl implements AccountService {
         toAccount.setAmountOfMoney(toAccountBalance);
 
         Transaction fromAccountTransaction = new Transaction();
-
         Transaction toAccountTransaction = new Transaction();
-
 
         fromAccount.getTransactions().add(fromAccountTransaction);
         toAccount.getTransactions().add(toAccountTransaction);

@@ -9,8 +9,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface AccountMapper {
 
-    // AccountMap INSTANCE = Mappers.getMapper(AccountMap.class);
-
     AccountRequestDto accountToDto(Account account);
 
     Account dtoToAccount(AccountRequestDto accountRequestDto);
