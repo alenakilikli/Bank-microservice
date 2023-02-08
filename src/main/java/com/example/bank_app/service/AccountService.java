@@ -7,16 +7,17 @@ import java.awt.print.Pageable;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 public interface AccountService {
 
-    AccountRequestDto createAccount(AccountRequestDto acountRequestDto);
+    AccountRequestDto createAccount(AccountRequestDto accountRequestDto);
 
-    List<AccountRequestDto> getAccounts(String city, Instant date, Pageable pageable);
+    List<AccountRequestDto> getAccounts(String city, String date);
 
-    AccountRequestDto findAccountById(Long id);
+    AccountRequestDto findAccountById(UUID id);
 
-    void update(Long id, AccountRequestDto dto);
+    void update(UUID id, AccountRequestDto dto);
 
     void transfer(Account idFrom, Account idTo, BigDecimal amount);
 }

@@ -6,7 +6,9 @@ import java.util.List;
 
 public interface TransactionService {
 
-    List<TransactionResponseDto> getTransaction(String date, String type, String sort);
+    TransactionResponseDto createTransaction(TransactionResponseDto transactionResponseDto);
+
+    List<TransactionResponseDto> getTransaction(String date, String type);
 
     TransactionResponseDto findTransactionById(Long id);
 }

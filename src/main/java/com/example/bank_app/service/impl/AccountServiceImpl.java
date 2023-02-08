@@ -7,16 +7,16 @@ import com.example.bank_app.mapper.AccountMapper;
 import com.example.bank_app.repository.AccountRepo;
 import com.example.bank_app.repository.TransactionRepo;
 import com.example.bank_app.service.AccountService;
-import com.example.bank_app.utils.ValidationMessages;
+import com.example.bank_app.exception.ValidationMessages;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.awt.print.Pageable;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -33,33 +33,33 @@ public class AccountServiceImpl implements AccountService {
     public AccountRequestDto createAccount(AccountRequestDto accountDto) {
         Account account1 = accountMap.dtoToAccount(accountDto);
         account1.setId(account1.getId());
+        account1.setCreationDate(Instant.now());
 
         accountRepo.save(account1);
 
         return accountMap.accountToDto(account1);
     }
 
-    @Override
-    public List<AccountRequestDto> getAccounts( String city,Instant date,Pageable pageable) {
-        return accountMap.accountsToDto(getAccountsSort(city,date,pageable));
+    public List<AccountRequestDto> getAccounts(String city, String date) {
+        return accountMap.accountsToDto(getAccountsSort(date,city));
     }
 
-    private List<Account>getAccountsSort(String city,Instant date,Pageable pageable){
+    private List<Account>getAccountsSort(String city, String date){
         return city!=null||date!=null
-                ? accountRepo.findAllByCreationDateOrCityIgnoreCaseOrderByCreationDateDesc( date, city)
+                ? accountRepo.findAllByCreationDateOrCityIgnoreCaseOrderByCreationDateDesc(Instant.parse(date), city)
                 :accountRepo.findAll();
     }
 
 
     @Override
-    public AccountRequestDto findAccountById(Long id) {
-        Account account = accountRepo.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    public AccountRequestDto findAccountById(UUID id) {
+        Account account = (Account) accountRepo.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return accountMap.accountToDto(account);
     }
 
     @Override
-    public void update(Long id, AccountRequestDto dto) {
-        Account account = accountRepo.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    public void update(UUID id, AccountRequestDto dto) {
+        Account account = (Account) accountRepo.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         account.setEmail(dto.getEmail());
         account.setCreationDate(Instant.now());
         account.setFirstName(dto.getFirstName());

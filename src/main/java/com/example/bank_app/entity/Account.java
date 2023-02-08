@@ -47,6 +47,7 @@ public class Account {
     @Column(name = "amounts")
     private BigDecimal amountOfMoney;
 
+
     @OneToMany(mappedBy = "account")
     private List<Transaction> transactions;
 

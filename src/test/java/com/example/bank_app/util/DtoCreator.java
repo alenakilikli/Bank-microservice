@@ -22,7 +22,7 @@ public class DtoCreator {
     public static TransactionResponseDto getTransactionDto(){
         return TransactionResponseDto.builder()
                 .dateTime(Instant.now())
-                .type(TransactionType.WITHDRAW)
+                .type(String.valueOf(TransactionType.WITHDRAW))
                 .amount(BigDecimal.valueOf(100000))
                 .accountFrom("Acc1")
                 .accountTo("Acc2")

@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import java.awt.print.Pageable;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public interface AccountRepo extends JpaRepository<Account,Long> {
 
@@ -17,4 +19,6 @@ public interface AccountRepo extends JpaRepository<Account,Long> {
 
     @Override
     List<Account> findAll();
+
+    Optional<Object> findById(UUID id);
 }

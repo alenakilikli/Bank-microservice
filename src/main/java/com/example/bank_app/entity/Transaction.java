@@ -1,5 +1,6 @@
 package com.example.bank_app.entity;
 
+import com.example.bank_app.entity.converter.TransactionTypeConverter;
 import com.example.bank_app.entity.enums.TransactionType;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -7,6 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -29,8 +31,8 @@ public class Transaction {
     private Instant dateTime;
 
     @Column(name = "transactions_type")
-//    @Enumerated(EnumType.STRING)
-//    @Convert(converter = TransactionType.class)
+    @Enumerated(EnumType.STRING)
+    @Convert(converter = TransactionTypeConverter.class)
     private TransactionType type;
 
     @Column(name = "amount")
@@ -42,8 +44,7 @@ public class Transaction {
     @Column(name = "account_to")
     private String accountTo;
 
-    @ManyToOne()
-    @JoinColumn(name = "account_id")
+    @ManyToOne
     private Account account;
 
 

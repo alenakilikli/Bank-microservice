@@ -1,4 +1,4 @@
-package com.example.bank_app.utils;
+package com.example.bank_app.exception;
 
 public class ValidationMessages {
 

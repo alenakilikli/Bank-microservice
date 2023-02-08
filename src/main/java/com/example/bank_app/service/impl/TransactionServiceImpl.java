@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Comparator;
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -21,9 +21,19 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionMapper transactionMapper;
 
     @Override
-    public List<TransactionResponseDto> getTransaction(String date, String type, String sort) {
+    public TransactionResponseDto createTransaction(TransactionResponseDto transactionResponseDto) {
+        Transaction transaction = transactionMapper.dtoToTransaction(transactionResponseDto);
+        transaction.setId(transaction.getId());
+        transaction.setDateTime(Instant.now());
+
+        transactionRepo.save(transaction);
+        return transactionMapper.transactionToDto(transaction);
+    }
+
+    @Override
+    public List<TransactionResponseDto> getTransaction(String date, String type) {
         List<Transaction> transactions = transactionRepo.findAll();
-        var transactionsList =  transactions.stream().sorted(Comparator.comparing(Transaction::getId)).toList();
+        var transactionsList = transactions.stream().toList();
         return transactionMapper.transactionsToDto(transactionsList);
     }
 

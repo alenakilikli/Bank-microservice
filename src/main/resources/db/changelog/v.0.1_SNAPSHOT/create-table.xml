@@ -31,6 +31,10 @@
             <column name="amounts" type="DECIMAL">
                 <constraints nullable="false"/>
             </column>
+<!--            <column name="transaction_id" type="bigint">-->
+<!--                <constraints referencedTableName="transactions"-->
+<!--                             foreignKeyName="ACCOUNTS_ID_TRANSACTIONS_ID"/>-->
+<!--            </column>-->
 
         </createTable>
 
@@ -56,8 +60,8 @@
             </column>
             <column name="account_id" type="bigint">
                 <constraints referencedTableName="accounts"
-                             referencedColumnNames="id"
-                             foreignKeyName="TRANSACTIONS_ACCOUNT_ACCOUNTS_ID"/>
+                                referencedColumnNames="id"
+                                foreignKeyName="TRANSACTIONS_ACCOUNT_ACCOUNTS_ID"/>
             </column>
         </createTable>
 
