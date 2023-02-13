@@ -1,5 +1,6 @@
 package com.example.bank_app.mapper;
 
+import com.example.bank_app.dto.transactionDto.TransactionRequestDto;
 import com.example.bank_app.dto.transactionDto.TransactionResponseDto;
 import com.example.bank_app.entity.Transaction;
 import org.mapstruct.Mapper;
@@ -11,7 +12,7 @@ public interface TransactionMapper {
 
     TransactionResponseDto transactionToDto(Transaction transaction);
 
-    Transaction dtoToTransaction(TransactionResponseDto transactionResponseDto);
+    Transaction dtoToTransaction(TransactionRequestDto transactionResponseDto);
 
     List<TransactionResponseDto> transactionsToDto(List<Transaction> transactions);
 }

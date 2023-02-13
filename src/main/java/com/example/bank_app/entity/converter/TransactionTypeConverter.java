@@ -18,10 +18,10 @@ public class TransactionTypeConverter implements AttributeConverter<TransactionT
     }
 
     @Override
-    public TransactionType convertToEntityAttribute(String s) {
-        if (s == null) {
+    public TransactionType convertToEntityAttribute(String dbData) {
+        if (dbData == null) {
             return null;
         }
-        return TransactionType.findByName(s);
+        return TransactionType.findByName(dbData.toUpperCase());
     }
 }

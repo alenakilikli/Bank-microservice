@@ -6,7 +6,7 @@
 
 <changeSet author="alenaKilikli" id="insert test data into products table">
         <insert tableName="accounts">
-            <column name="id" value="1"/>
+            <column name="id" value="133e4999-e22b-12d3-a456-411055840001"/>
             <column name="email" value="alpa@gmail.com"/>
             <column name="creation_date" value="2016-12-18@07:53:34.740+0000"/>
             <column name="first_name" value="Vasya"/>
@@ -16,13 +16,14 @@
             <column name="amounts" value="1000"/>
         </insert>
     <insert tableName="transactions">
-            <column name="id" value="1"/>
+            <column name="id" value="aaaabbbb-0000-9999-8888-777766665555"/>
             <column name="date_time" value="2000-12-18@07:53:34.740+0000"/>
             <column name="transactions_type" value="DIVIDEND"/>
+            <column name="transactions_status" value="APPROVED"/>
             <column name="amount" value="2000"/>
             <column name="account_from" value="acc1"/>
             <column name="account_to" value="acc2"/>
-        <column name="account_id" value="1"/>
+        <column name="account_id" value="133e4999-e22b-12d3-a456-411055840002"/>
         </insert>
     </changeSet>
 </databaseChangeLog>

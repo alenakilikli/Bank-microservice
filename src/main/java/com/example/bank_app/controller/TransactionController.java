@@ -1,5 +1,6 @@
 package com.example.bank_app.controller;
 
+import com.example.bank_app.dto.transactionDto.TransactionRequestDto;
 import com.example.bank_app.dto.transactionDto.TransactionResponseDto;
 import com.example.bank_app.service.TransactionService;
 import com.example.bank_app.validation.annotation.Uuid;
@@ -17,8 +18,8 @@ public class TransactionController {
 
     @PostMapping("/transactions")
     @ResponseStatus(HttpStatus.OK)
-    public TransactionResponseDto createTransaction(TransactionResponseDto transactionResponseDto) {
-        return transactionService.createTransaction(transactionResponseDto);
+    public TransactionResponseDto createTransaction(TransactionRequestDto transactionRequestDto) {
+        return transactionService.createTransaction(transactionRequestDto);
     }
 
 

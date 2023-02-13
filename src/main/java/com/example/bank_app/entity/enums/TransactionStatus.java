@@ -1,7 +1,6 @@
 package com.example.bank_app.entity.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,27 +8,22 @@ import java.util.Arrays;
 
 @AllArgsConstructor
 @Getter
-public enum TransactionType {
-
-    WITHDRAW(2, "withdraw"),
-    DEPOSIT(4, "deposit");
+public enum TransactionStatus {
+    APPROVED(1,"approved"),
+    DENIED(2,"denied");
 
     private final Integer id;
     private final String name;
 
     @JsonCreator
-    public static TransactionType findByName(String typeName) {
-        if (typeName == null) {
+    public static TransactionStatus findByName(String statusName) {
+        if (statusName == null) {
             return null;
         }
 
-        return Arrays.stream(TransactionType.values())
-                .filter(x -> x.getName().equalsIgnoreCase(typeName))
+        return Arrays.stream(TransactionStatus.values())
+                .filter(x -> x.getName().equalsIgnoreCase(statusName))
                 .findFirst()
                 .orElse(null);
     }
-
-
 }
-
-

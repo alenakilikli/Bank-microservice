@@ -1,6 +1,6 @@
 package com.example.bank_app.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -30,6 +30,7 @@ public class Account {
     private String email;
 
     @Column(name = "creation_date")
+    @JsonFormat(pattern = "yyyy-MM-dd",shape = JsonFormat.Shape.STRING)
     private Instant creationDate;
 
     @Column(name = "first_name")
@@ -46,7 +47,6 @@ public class Account {
 
     @Column(name = "amounts")
     private BigDecimal amountOfMoney;
-
 
     @OneToMany(mappedBy = "account")
     private List<Transaction> transactions;

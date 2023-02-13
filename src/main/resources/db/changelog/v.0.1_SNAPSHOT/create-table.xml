@@ -6,7 +6,7 @@
     <changeSet id="1.0.0" author="alenaKilikli">
         <!--ACCOUNTS -->
         <createTable tableName="accounts">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="id" type="uuid">
                 <constraints primaryKey="true"/>
             </column>
             <column name="email" type="varchar(255)">
@@ -40,13 +40,16 @@
 
         <!--TRANSACTIONS -->
         <createTable tableName="transactions">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="id" type="uuid">
                 <constraints primaryKey="true"/>
             </column>
             <column name="date_time" type="DATETIME" defaultValue="NOW()">
                 <constraints nullable="false"/>
             </column>
             <column name="transactions_type" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transactions_status" type="varchar">
                 <constraints nullable="false"/>
             </column>
             <column name="amount" type="DECIMAL">
@@ -58,10 +61,11 @@
             <column name="account_to" type="varchar">
                 <constraints nullable="false"/>
             </column>
-            <column name="account_id" type="bigint">
-                <constraints referencedTableName="accounts"
-                                referencedColumnNames="id"
-                                foreignKeyName="TRANSACTIONS_ACCOUNT_ACCOUNTS_ID"/>
+            <column name="account_id" type="uuid">
+                <constraints referencedTableName="accounts(id)"
+                                foreignKeyName="TRANSACTIONS_ACCOUNT_ACCOUNTS_ID"
+                unique="true" nullable="false"
+                />
             </column>
         </createTable>
 
