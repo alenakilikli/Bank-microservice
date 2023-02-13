@@ -1,8 +1,7 @@
 package com.example.bank_app.controller;
 
-import com.example.bank_app.dto.accountDto.AccountRequestDto;
-import com.example.bank_app.dto.accountDto.AccountResponseDto;
-import com.example.bank_app.entity.Account;
+import com.example.bank_app.dto.accountdto.AccountRequestDto;
+import com.example.bank_app.dto.accountdto.AccountResponseDto;
 import com.example.bank_app.service.AccountService;
 
 import com.example.bank_app.validation.annotation.Uuid;

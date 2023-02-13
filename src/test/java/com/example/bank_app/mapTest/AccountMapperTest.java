@@ -1,6 +1,7 @@
 package com.example.bank_app.mapTest;
 
-import com.example.bank_app.dto.accountDto.AccountRequestDto;
+import com.example.bank_app.dto.accountdto.AccountRequestDto;
+import com.example.bank_app.dto.accountdto.AccountResponseDto;
 import com.example.bank_app.entity.Account;
 import com.example.bank_app.mapper.AccountMapper;
 import com.example.bank_app.mapper.AccountMapperImpl;
@@ -15,21 +16,21 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Test class for AccountMapper")
-public class AccountMapperTest {
+class AccountMapperTest {
 
     private final AccountMapper accountMapper = new AccountMapperImpl();
 
 
     @Test
-    public void shouldMapAccountToDto() {
+    void shouldMapAccountToDto() {
         Account account = EntityCreator.getAccount();
-        AccountRequestDto dto = accountMapper.accountToDto(account);
+        AccountResponseDto dto = accountMapper.accountToDto(account);
         compareEntityWithDto(account, dto);
 
     }
 
     @Test
-    public void shouldMapDtoToAccount() {
+    void shouldMapDtoToAccount() {
         AccountRequestDto dto = new AccountRequestDto();
         dto.setCity("aaaa");
         Account account = accountMapper.dtoToAccount(dto);
@@ -37,24 +38,23 @@ public class AccountMapperTest {
     }
 
     @Test
-    public void shouldMapListToListDto() {
+    void shouldMapListToListDto() {
         List<Account> accountList = new ArrayList<>();
         accountList.add(EntityCreator.getAccount());
-        List<AccountRequestDto> accountRequestDtoList = accountMapper.accountsToDto(accountList);
+        List<AccountResponseDto> accountRequestDtoList = accountMapper.accountsToDto(accountList);
         compareAccountListWithListDto(accountList, accountRequestDtoList);
     }
 
-    private void compareAccountListWithListDto(List<Account> accountList, List<AccountRequestDto> accountRequestDtoList) {
+    private void compareAccountListWithListDto(List<Account> accountList, List<AccountResponseDto> accountRequestDtoList) {
         assertEquals(accountList.size(), accountRequestDtoList.size());
         for (int i = 0; i < accountList.size(); i++) {
             compareEntityWithDto(accountList.get(i), accountRequestDtoList.get(i));
         }
     }
 
-    private void compareEntityWithDto(Account account, AccountRequestDto dto) {
+    private void compareEntityWithDto(Account account, AccountResponseDto dto) {
         assertAll(
                 () -> assertEquals(account.getEmail(), dto.getEmail()),
-                () -> assertEquals(account.getCreationDate(), dto.getCreationDate()),
                 () -> assertEquals(account.getFirstName(), dto.getFirstName()),
                 () -> assertEquals(account.getLastName(), dto.getLastName()),
                 () -> assertEquals(account.getCountry(), dto.getCountry()),

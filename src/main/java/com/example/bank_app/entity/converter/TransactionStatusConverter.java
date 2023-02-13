@@ -9,10 +9,8 @@ import javax.persistence.Converter;
 public class TransactionStatusConverter implements AttributeConverter<TransactionStatus,String> {
     @Override
     public String convertToDatabaseColumn(TransactionStatus transactionStatus) {
-        if (transactionStatus==null){
-            return null;
-        }
-        return null;
+        if (transactionStatus==null) return null;
+        return transactionStatus.getName().toUpperCase();
     }
 
     @Override

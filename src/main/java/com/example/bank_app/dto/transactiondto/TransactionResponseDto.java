@@ -1,8 +1,6 @@
-package com.example.bank_app.dto.transactionDto;
+package com.example.bank_app.dto.transactiondto;
 
 import com.example.bank_app.entity.enums.TransactionStatus;
-import com.example.bank_app.validation.annotation.Uuid;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.math.BigDecimal;

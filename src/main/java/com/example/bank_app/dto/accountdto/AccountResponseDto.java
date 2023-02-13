@@ -1,6 +1,5 @@
-package com.example.bank_app.dto.accountDto;
+package com.example.bank_app.dto.accountdto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.math.BigDecimal;

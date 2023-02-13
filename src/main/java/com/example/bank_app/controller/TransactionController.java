@@ -1,7 +1,6 @@
 package com.example.bank_app.controller;
 
-import com.example.bank_app.dto.transactionDto.TransactionRequestDto;
-import com.example.bank_app.dto.transactionDto.TransactionResponseDto;
+import com.example.bank_app.dto.transactiondto.TransactionResponseDto;
 import com.example.bank_app.service.TransactionService;
 import com.example.bank_app.validation.annotation.Uuid;
 import lombok.RequiredArgsConstructor;
@@ -15,13 +14,6 @@ import java.util.List;
 public class TransactionController {
 
     private final TransactionService transactionService;
-
-    @PostMapping("/transactions")
-    @ResponseStatus(HttpStatus.OK)
-    public TransactionResponseDto createTransaction(TransactionRequestDto transactionRequestDto) {
-        return transactionService.createTransaction(transactionRequestDto);
-    }
-
 
     @GetMapping("/transactions")
     @ResponseStatus(HttpStatus.OK)

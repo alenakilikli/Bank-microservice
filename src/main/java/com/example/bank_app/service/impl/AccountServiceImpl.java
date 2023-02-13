@@ -1,7 +1,7 @@
 package com.example.bank_app.service.impl;
 
-import com.example.bank_app.dto.accountDto.AccountRequestDto;
-import com.example.bank_app.dto.accountDto.AccountResponseDto;
+import com.example.bank_app.dto.accountdto.AccountRequestDto;
+import com.example.bank_app.dto.accountdto.AccountResponseDto;
 import com.example.bank_app.entity.Account;
 import com.example.bank_app.entity.Transaction;
 import com.example.bank_app.entity.enums.TransactionStatus;
@@ -39,7 +39,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     public List<AccountResponseDto> getAccounts(String city, String date) {
-        return accountMapper.accountsToDto(getAccountsSort(date, city));
+        return accountMapper.accountsToDto(getAccountsSort(city, date));
     }
 
     private List<Account> getAccountsSort(String city, String date) {
@@ -75,28 +75,23 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void transfer(UUID fromAccountId, UUID toAccountId, BigDecimal amount) {
-//if fromAccount not exits - exception
+
         Account fromAccount = (Account) accountRepository.findById(fromAccountId).orElseThrow(() -> new IllegalArgumentException(ValidationMessages.FROM_ACCOUNT_AND_TO_ACCOUNT_SHOULD_NOT_BE_NULL));
-//if toAccount not exits - exception
+
         Account toAccount = (Account) accountRepository.findById(toAccountId).orElseThrow(() -> new IllegalArgumentException(ValidationMessages.FROM_ACCOUNT_AND_TO_ACCOUNT_SHOULD_NOT_BE_NULL));
-//creating transaction for fromAccount and save to list of transactions of fromAccount
-        Transaction fromAccountTransaction = new Transaction();
+
+        Transaction fromAccountTransaction = new Transaction();//creating transaction for fromAccount and save to list of transactions of fromAccount
         createTransactionWithdraw(fromAccountId, toAccountId, amount);
         fromAccount.getTransactions().add(fromAccountTransaction);
+        transactionRepository.save(fromAccountTransaction);
 
-        Transaction toAccountTransaction = null;
 
-//check balance of fromAccount
-        //if enough create transaction for toAccount
-        //and save transaction fo toAccount
-        // change balances on both accounts
-        if (checkBalance(amount, fromAccountTransaction)) {
+        checkBalance(amount, fromAccountTransaction); //check balance of fromAccount//if enough create transaction for toAccount//and save transaction fo toAccount// change balances on both accounts
 
-            toAccountTransaction = new Transaction();
-            fromAccountTransaction.setStatus(TransactionStatus.APPROVED);
-            createTransactionDeposit(fromAccountId, toAccountId, amount);
-            toAccount.getTransactions().add(toAccountTransaction);
-        }
+        Transaction toAccountTransaction = new Transaction();
+        createTransactionDeposit(fromAccountId, toAccountId, amount);
+        toAccount.getTransactions().add(toAccountTransaction);
+
 
         BigDecimal fromAccountBalance = fromAccount.getAmountOfMoney().subtract(amount);
         fromAccount.setAmountOfMoney(fromAccountBalance);
@@ -104,8 +99,6 @@ public class AccountServiceImpl implements AccountService {
         BigDecimal toAccountBalance = toAccount.getAmountOfMoney().add(amount);
         toAccount.setAmountOfMoney(toAccountBalance);
 
-        transactionRepository.save(fromAccountTransaction);
-        assert toAccountTransaction != null;
         transactionRepository.save(toAccountTransaction);
 
     }
@@ -133,13 +126,13 @@ public class AccountServiceImpl implements AccountService {
                 .build();
     }
 
-    private boolean checkBalance(BigDecimal amount, Transaction fromTransaction) {
+    private void checkBalance(BigDecimal amount, Transaction fromTransaction) {
 
         if (amount.compareTo(new BigDecimal(0)) <= 0) {
             fromTransaction.setStatus(TransactionStatus.DENIED);
             throw new IllegalArgumentException(ValidationMessages.FROM_ACCOUNT_AND_TO_ACCOUNT_SHOULD_NOT_BE_NULL_AND_TRANSFER_AMOUNT_SHOULD_BE_GREATER_THAN_0);
         } else {
-            return true;
+            fromTransaction.setStatus(TransactionStatus.APPROVED);
 
         }
 

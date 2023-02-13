@@ -1,7 +1,6 @@
 package com.example.bank_app.service.impl;
 
-import com.example.bank_app.dto.transactionDto.TransactionRequestDto;
-import com.example.bank_app.dto.transactionDto.TransactionResponseDto;
+import com.example.bank_app.dto.transactiondto.TransactionResponseDto;
 import com.example.bank_app.entity.Transaction;
 import com.example.bank_app.mapper.TransactionMapper;
 import com.example.bank_app.repository.TransactionRepository;
@@ -20,15 +19,6 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
     private final TransactionMapper transactionMapper;
 
-    @Override
-    public TransactionResponseDto createTransaction(TransactionRequestDto transactionRequestDto) {
-
-        Transaction transaction = transactionMapper.dtoToTransaction(transactionRequestDto);
-
-        transactionRepository.save(transaction);
-
-        return transactionMapper.transactionToDto(transaction);
-    }
 
     @Override
     public List<TransactionResponseDto> getTransaction(String date, String type) {

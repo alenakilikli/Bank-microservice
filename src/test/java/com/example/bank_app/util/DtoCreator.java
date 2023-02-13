@@ -1,8 +1,7 @@
 package com.example.bank_app.util;
 
-import com.example.bank_app.dto.accountDto.AccountRequestDto;
-import com.example.bank_app.dto.transactionDto.TransactionResponseDto;
-import com.example.bank_app.entity.enums.TransactionType;
+import com.example.bank_app.dto.accountdto.AccountRequestDto;
+import com.example.bank_app.dto.transactiondto.TransactionResponseDto;
 
 import java.math.BigDecimal;
 import java.time.Instant;

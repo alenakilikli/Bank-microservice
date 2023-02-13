@@ -1,7 +1,7 @@
 package com.example.bank_app.service;
 
-import com.example.bank_app.dto.accountDto.AccountRequestDto;
-import com.example.bank_app.dto.accountDto.AccountResponseDto;
+import com.example.bank_app.dto.accountdto.AccountRequestDto;
+import com.example.bank_app.dto.accountdto.AccountResponseDto;
 
 import java.math.BigDecimal;
 import java.util.List;
