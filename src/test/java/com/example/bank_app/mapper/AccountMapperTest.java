@@ -1,10 +1,9 @@
-package com.example.bank_app.mapTest;
+package com.example.bank_app.mapper;
 
 import com.example.bank_app.dto.accountdto.AccountRequestDto;
 import com.example.bank_app.dto.accountdto.AccountResponseDto;
 import com.example.bank_app.entity.Account;
-import com.example.bank_app.mapper.AccountMapper;
-import com.example.bank_app.mapper.AccountMapperImpl;
+import com.example.bank_app.util.DtoCreator;
 import com.example.bank_app.util.EntityCreator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,18 +21,18 @@ class AccountMapperTest {
 
 
     @Test
-    void shouldMapAccountToDto() {
+    void shouldMapAccountToDtoResponse() {
         Account account = EntityCreator.getAccount();
-        AccountResponseDto dto = accountMapper.accountToDto(account);
+        AccountResponseDto dto = accountMapper.accountToDtoResponse(account);
         compareEntityWithDto(account, dto);
 
     }
 
     @Test
-    void shouldMapDtoToAccount() {
-        AccountRequestDto dto = new AccountRequestDto();
+    void shouldMapDtoRequestToAccount() {
+        AccountRequestDto dto = DtoCreator.getAccountRequestDto();
         dto.setCity("aaaa");
-        Account account = accountMapper.dtoToAccount(dto);
+        Account account = accountMapper.dtoRequestToAccount(dto);
         assertEquals(account.getCity(), dto.getCity());
     }
 
@@ -54,11 +53,13 @@ class AccountMapperTest {
 
     private void compareEntityWithDto(Account account, AccountResponseDto dto) {
         assertAll(
+                ()->assertEquals(account.getId().toString(),dto.getId()),
                 () -> assertEquals(account.getEmail(), dto.getEmail()),
                 () -> assertEquals(account.getFirstName(), dto.getFirstName()),
                 () -> assertEquals(account.getLastName(), dto.getLastName()),
                 () -> assertEquals(account.getCountry(), dto.getCountry()),
-                () -> assertEquals(account.getCity(), dto.getCity())
+                () -> assertEquals(account.getCity(), dto.getCity()),
+                () -> assertEquals(account.getAmountOfMoney(), dto.getAmountOfMoney())
         );
     }
 }

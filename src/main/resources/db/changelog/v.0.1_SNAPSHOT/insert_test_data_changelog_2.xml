@@ -18,11 +18,11 @@
         <insert tableName="transactions">
             <column name="id" value="323e4999-e89b-12d3-a456-428655440000"/>
             <column name="date_time" value="2002-12-18@07:53:34.740+0000"/>
-            <column name="transactions_type" value="WITHDRAW"/>
+            <column name="transactions_type" value="DEPOSIT"/>
             <column name="transactions_status" value="APPROVED"/>
             <column name="amount" value="21000"/>
-            <column name="account_from" value="acc3"/>
-            <column name="account_to" value="acc4"/>
+            <column name="account_from" value="999f4567-e89b-12d3-a456-426655448800"/>
+            <column name="account_to" value="199e4567-e89b-12d3-a456-426655440000"/>
             <column name="account_id" value="993e4567-e89b-12d3-a456-926655440000"/>
         </insert>
     </changeSet>

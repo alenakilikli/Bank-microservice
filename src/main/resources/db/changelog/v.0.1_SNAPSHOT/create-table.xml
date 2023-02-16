@@ -47,7 +47,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="transactions_type" type="varchar">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="transactions_status" type="varchar">
                 <constraints nullable="false"/>

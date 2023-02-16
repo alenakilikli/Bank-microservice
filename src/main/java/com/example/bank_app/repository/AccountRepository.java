@@ -8,13 +8,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface AccountRepository extends JpaRepository<Account, Long> {
-
     @Override
     List<Account> findAll();
 
     Optional<Object> findById(UUID id);
 
     List<Account> findAllByCreationDate(String date);
+
+    Account findAccountById(String id);
 
     List<Account> findAllByCityIgnoreCaseOrderByCreationDate(String city);
 

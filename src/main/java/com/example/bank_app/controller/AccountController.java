@@ -3,7 +3,6 @@ package com.example.bank_app.controller;
 import com.example.bank_app.dto.accountdto.AccountRequestDto;
 import com.example.bank_app.dto.accountdto.AccountResponseDto;
 import com.example.bank_app.service.AccountService;
-
 import com.example.bank_app.validation.annotation.Uuid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,29 +29,29 @@ public class AccountController {
     @GetMapping("/accounts")
     @ResponseStatus(HttpStatus.OK)
     public List<AccountResponseDto> getAccounts(@RequestParam(value = "date", required = false) String date,
-                                               @RequestParam(value = "city", required = false) String city) {
-        return accountService.getAccounts(date,city);
+                                                @RequestParam(value = "city", required = false) String city) {
+        return accountService.getAccounts(date, city);
 
     }
 
 
     @GetMapping("/accounts/{id}")
-    public AccountResponseDto showAccountById(@Uuid @PathVariable UUID id) {
-        return accountService.findAccountById(id);
+    public AccountResponseDto showAccountById(@Uuid @PathVariable String id) {
+        return accountService.getAccountById(id);
     }
 
     @PatchMapping("/accounts/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@Uuid@PathVariable UUID id, AccountRequestDto dto) {
+    public void update(@Uuid @PathVariable UUID id, AccountRequestDto dto) {
         accountService.update(id, dto);
     }
 
     @PutMapping("/accounts/transfer")
     @ResponseStatus(HttpStatus.OK)
-    public void transferMoney(@Uuid@RequestParam(value = "idFrom", required = false) UUID idFrom,
-                              @Uuid@RequestParam(value = "idTo", required = false) UUID idTo,
+    public void transferMoney(@Uuid @RequestParam(value = "idFrom", required = false) String fromAccount,
+                              @Uuid @RequestParam(value = "idTo", required = false) String toAccount,
                               @RequestParam(value = "amount", required = false) BigDecimal amount) {
-        accountService.transfer(idFrom,idTo,amount);
+        accountService.transfer(fromAccount, toAccount, amount);
     }
 
 

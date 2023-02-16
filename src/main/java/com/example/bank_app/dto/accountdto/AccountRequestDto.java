@@ -32,5 +32,4 @@ public class AccountRequestDto {
 
     private BigDecimal amountOfMoney;
 
-    private List<Transaction> transactions;
 }

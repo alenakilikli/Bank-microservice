@@ -6,7 +6,9 @@ import com.example.bank_app.entity.Account;
 import com.example.bank_app.entity.Transaction;
 import com.example.bank_app.entity.enums.TransactionStatus;
 import com.example.bank_app.entity.enums.TransactionType;
-import com.example.bank_app.exception.ValidationMessages;
+import com.example.bank_app.exception.AccountNotExistsException;
+import com.example.bank_app.exception.BalanceNotEnoughException;
+import com.example.bank_app.exception.ErrorMessage;
 import com.example.bank_app.mapper.AccountMapper;
 import com.example.bank_app.repository.AccountRepository;
 import com.example.bank_app.repository.TransactionRepository;
@@ -31,12 +33,12 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountResponseDto createAccount(AccountRequestDto accountDto) {
-        Account account = accountMapper.dtoToAccount(accountDto);
-        account.setTransactions(null);
+        Account account = accountMapper.dtoRequestToAccount(accountDto);
         accountRepository.save(account);
 
-        return accountMapper.accountToDto(account);
+        return accountMapper.accountToDtoResponse(account);
     }
+
 
     public List<AccountResponseDto> getAccounts(String city, String date) {
         return accountMapper.accountsToDto(getAccountsSort(city, date));
@@ -44,7 +46,6 @@ public class AccountServiceImpl implements AccountService {
 
     private List<Account> getAccountsSort(String city, String date) {
         List<Account> accounts;
-
         if (date != null) {
             accounts = accountRepository.findAllByCreationDate(date);
         } else if (city != null) {
@@ -54,11 +55,9 @@ public class AccountServiceImpl implements AccountService {
         return accounts;
     }
 
-
     @Override
-    public AccountResponseDto findAccountById(UUID id) {
-        Account account = (Account) accountRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        return accountMapper.accountToDto(account);
+    public AccountResponseDto getAccountById(String id) {
+        return accountMapper.accountToDtoResponse(findAccount(id));
     }
 
     @Override
@@ -70,72 +69,81 @@ public class AccountServiceImpl implements AccountService {
         account.setLastName(dto.getLastName());
         account.setCountry(dto.getCountry());
         account.setCity(dto.getCity());
+        account.setAmountOfMoney(dto.getAmountOfMoney());
         accountRepository.save(account);
     }
 
     @Override
-    public void transfer(UUID fromAccountId, UUID toAccountId, BigDecimal amount) {
+    public void transfer(String fromAccountId, String toAccountId, BigDecimal amount) {
 
-        Account fromAccount = (Account) accountRepository.findById(fromAccountId).orElseThrow(() -> new IllegalArgumentException(ValidationMessages.FROM_ACCOUNT_AND_TO_ACCOUNT_SHOULD_NOT_BE_NULL));
+        Account fromAccount = findAccount(fromAccountId);
 
-        Account toAccount = (Account) accountRepository.findById(toAccountId).orElseThrow(() -> new IllegalArgumentException(ValidationMessages.FROM_ACCOUNT_AND_TO_ACCOUNT_SHOULD_NOT_BE_NULL));
+        Transaction fromAccountTransaction = createTransaction(fromAccountId, toAccountId, amount);
+        addTransactionToAccount(fromAccount, fromAccountTransaction);
 
-        Transaction fromAccountTransaction = new Transaction();//creating transaction for fromAccount and save to list of transactions of fromAccount
-        createTransactionWithdraw(fromAccountId, toAccountId, amount);
-        fromAccount.getTransactions().add(fromAccountTransaction);
+        if (checkBalance(amount)) {
+            setStatusApproved(fromAccountTransaction);
+        } else {
+            setStatusDenied(fromAccountTransaction);
+            throw new BalanceNotEnoughException(ErrorMessage.BALANCE_SHOULD_BE_GREATER_THAN_AMOUNT_OF_SENDING_MONEY);
+        }
+        Account toAccount = findAccount(fromAccountId);
+
+        Transaction toAccountTransaction = createTransaction(fromAccountId, toAccountId, amount);
+        setStatusApproved(toAccountTransaction);
+        addTransactionToAccount(fromAccount, fromAccountTransaction);
+
+        decreaseBalance(amount, fromAccount);
+        increaseBalance(amount, toAccount);
+
         transactionRepository.save(fromAccountTransaction);
-
-
-        checkBalance(amount, fromAccountTransaction); //check balance of fromAccount//if enough create transaction for toAccount//and save transaction fo toAccount// change balances on both accounts
-
-        Transaction toAccountTransaction = new Transaction();
-        createTransactionDeposit(fromAccountId, toAccountId, amount);
-        toAccount.getTransactions().add(toAccountTransaction);
-
-
-        BigDecimal fromAccountBalance = fromAccount.getAmountOfMoney().subtract(amount);
-        fromAccount.setAmountOfMoney(fromAccountBalance);
-
-        BigDecimal toAccountBalance = toAccount.getAmountOfMoney().add(amount);
-        toAccount.setAmountOfMoney(toAccountBalance);
-
         transactionRepository.save(toAccountTransaction);
 
     }
 
-    private void createTransactionWithdraw(UUID fromAccountId, UUID toAccountId, BigDecimal amount) {
-        Transaction.builder()
-                .dateTime(Instant.now())
-                .type(TransactionType.WITHDRAW)
-                .status(TransactionStatus.APPROVED)
-                .amount(amount)
-                .accountFrom(String.valueOf(fromAccountId))
-                .accountTo(String.valueOf(toAccountId))
-                .build();
 
+    private Account findAccount(String accountId) {
+        return accountRepository.findAccountById(accountId);//.orElseThrow(() -> new AccountNotExistsException(ErrorMessage.ACCOUNT_SHOULD_NOT_BE_NULL));
     }
 
-    private void createTransactionDeposit(UUID fromAccountId, UUID toAccountId, BigDecimal amount) {
-        Transaction.builder()
+    private Transaction createTransaction(String fromAccountId, String toAccountId, BigDecimal amount) {
+       Transaction transaction = Transaction.builder()
                 .dateTime(Instant.now())
-                .type(TransactionType.DEPOSIT)
-                .status(TransactionStatus.APPROVED)
+                .type(TransactionType.BALANCE)
+                .status(TransactionStatus.PENDING)
                 .amount(amount)
-                .accountFrom(String.valueOf(fromAccountId))
-                .accountTo(String.valueOf(toAccountId))
+                .accountFrom(fromAccountId)
+                .accountTo(toAccountId)
                 .build();
+       transactionRepository.save(transaction);
+       return transaction;
     }
 
-    private void checkBalance(BigDecimal amount, Transaction fromTransaction) {
 
-        if (amount.compareTo(new BigDecimal(0)) <= 0) {
-            fromTransaction.setStatus(TransactionStatus.DENIED);
-            throw new IllegalArgumentException(ValidationMessages.FROM_ACCOUNT_AND_TO_ACCOUNT_SHOULD_NOT_BE_NULL_AND_TRANSFER_AMOUNT_SHOULD_BE_GREATER_THAN_0);
-        } else {
-            fromTransaction.setStatus(TransactionStatus.APPROVED);
+    private boolean checkBalance(BigDecimal amount) {
+        return amount.compareTo(new BigDecimal(0)) > 0;
 
-        }
+    }
+    private static void decreaseBalance(BigDecimal amount, Account account) {
+        BigDecimal fromAccountBalance = account.getAmountOfMoney().subtract(amount);
+        account.setAmountOfMoney(fromAccountBalance);
+    }
 
+    private static void increaseBalance(BigDecimal amount, Account account) {
+        BigDecimal fromAccountBalance = account.getAmountOfMoney().add(amount);
+        account.setAmountOfMoney(fromAccountBalance);
+    }
+
+    private static void setStatusApproved(Transaction fromTransaction) {
+        fromTransaction.setStatus(TransactionStatus.APPROVED);
+    }
+
+    private static void setStatusDenied(Transaction fromTransaction) {
+        fromTransaction.setStatus(TransactionStatus.DENIED);
+    }
+
+    private static void addTransactionToAccount(Account fromAccount, Transaction fromAccountTransaction) {
+        fromAccount.getTransactions().add(fromAccountTransaction);
     }
 
 

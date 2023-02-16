@@ -13,10 +13,10 @@ public interface AccountService {
 
     List<AccountResponseDto> getAccounts(String city, String date);
 
-    AccountResponseDto findAccountById(UUID id);
+    AccountResponseDto getAccountById(String id);
 
     void update(UUID id, AccountRequestDto dto);
 
-    void transfer(UUID fromAccountId, UUID toAccountId, BigDecimal amount);
+    void transfer(String fromAccount, String toAccount, BigDecimal amount);
 
 }
