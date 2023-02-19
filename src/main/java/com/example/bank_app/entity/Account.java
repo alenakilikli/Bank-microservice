@@ -1,6 +1,8 @@
 package com.example.bank_app.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -57,7 +59,7 @@ public class Account {
     private String email;
 
     @Column(name = "creation_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonSerialize(using = InstantSerializer.class)
     private Instant creationDate;
 
     @Column(name = "first_name")

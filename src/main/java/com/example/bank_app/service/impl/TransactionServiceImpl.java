@@ -69,8 +69,11 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<TransactionResponseDto> findTransactionsById(UUID id) {
-        var accounts = accountRepository.findAccountById(id);
-        List<Transaction> transactions = transactionRepository.findByAccountFromId(accounts);
-        return transactionMapper.transactionsToDto(transactions);
+        List<Transaction> transactions = transactionRepository.findAll();
+        var list = transactions.stream().filter(transaction -> transaction.getAccountFrom().equals(id.toString())).toList();
+        //TODO METHOD RETURN JUST ACCOUNTfROM, MAKE ALSO ACCOUNTTO
+
+
+        return transactionMapper.transactionsToDto(list);
     }
 }

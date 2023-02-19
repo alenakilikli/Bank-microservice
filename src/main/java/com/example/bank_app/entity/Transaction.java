@@ -5,6 +5,8 @@ import com.example.bank_app.entity.converter.TransactionTypeConverter;
 import com.example.bank_app.entity.enums.TransactionStatus;
 import com.example.bank_app.entity.enums.TransactionType;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -31,7 +33,7 @@ public class Transaction {
     private UUID id;
 
     @Column(name = "date_time")
-   // @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonSerialize(using = InstantSerializer.class)
     private Instant dateTime;
 
     @Column(name = "transactions_type")

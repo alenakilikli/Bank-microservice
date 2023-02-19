@@ -4,6 +4,7 @@ import com.example.bank_app.dto.accountdto.AccountRequestDto;
 import com.example.bank_app.dto.accountdto.AccountResponseDto;
 import com.example.bank_app.entity.Account;
 import com.example.bank_app.entity.Transaction;
+import com.example.bank_app.entity.enums.TransactionType;
 import com.example.bank_app.exception.BalanceNotEnoughException;
 import com.example.bank_app.exception.ErrorMessage;
 import com.example.bank_app.mapper.AccountMapper;
@@ -35,6 +36,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountResponseDto createAccount(AccountRequestDto accountDto) {
         var account = accountMapper.dtoRequestToAccount(accountDto);
+        account.setCreationDate(Instant.now());
         accountRepository.save(account);
         return accountMapper.accountToDtoResponse(account);
     }
@@ -68,6 +70,7 @@ public class AccountServiceImpl implements AccountService {
         Account fromAccount = findAccount(String.valueOf(fromAccountId));
 
         Transaction fromAccountTransaction = create(fromAccountId, toAccountId, amount);
+        fromAccountTransaction.setType(TransactionType.WITHDRAW);
         addTransactionToAccount(fromAccount, fromAccountTransaction);
 
         if (checkBalance(amount)) {
@@ -79,8 +82,9 @@ public class AccountServiceImpl implements AccountService {
 
         Account toAccount = findAccount(String.valueOf(toAccountId));
 
-        Transaction toAccountTransaction = create(fromAccountId, toAccountId, amount);
+        Transaction toAccountTransaction = create(toAccountId, fromAccountId, amount);
         setStatusApproved(toAccountTransaction);
+        toAccountTransaction.setType(TransactionType.DEPOSIT);
         addTransactionToAccount(fromAccount, fromAccountTransaction);
 
         decreaseBalance(amount, fromAccount);
