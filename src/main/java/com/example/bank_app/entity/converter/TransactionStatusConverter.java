@@ -18,6 +18,6 @@ public class TransactionStatusConverter implements AttributeConverter<Transactio
         if (dbData == null) {
             return null;
         }
-        return TransactionStatus.findByName(dbData);
+        return TransactionStatus.findByName(dbData.toUpperCase());
     }
 }

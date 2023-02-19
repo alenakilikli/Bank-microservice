@@ -11,8 +11,10 @@ import java.util.Arrays;
 @Getter
 public enum TransactionType {
 
-    WITHDRAW(2, "withdraw"),
-    DEPOSIT(4, "deposit");
+    WITHDRAW(1, "withdraw"),
+    DEPOSIT(2, "deposit"),
+    BALANCE(3,"balance");
+
 
     private final Integer id;
     private final String name;

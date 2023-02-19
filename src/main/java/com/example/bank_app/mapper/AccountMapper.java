@@ -6,19 +6,14 @@ import com.example.bank_app.entity.Account;
 import org.mapstruct.Mapper;
 
 import java.util.List;
+import java.util.UUID;
 
 @Mapper(componentModel = "spring")
 public interface AccountMapper {
 
     AccountResponseDto accountToDtoResponse(Account account);
 
-    AccountRequestDto accountToDtoRequest(Account account);
-
     Account dtoRequestToAccount(AccountRequestDto accountRequestDto);
-
-    Account dtoResponseToAccount(AccountResponseDto accountResponseDto);
-
-    AccountRequestDto requestToResponse(AccountResponseDto responseDto);
 
     List<AccountResponseDto> accountsToDto(List<Account> accounts);
 }

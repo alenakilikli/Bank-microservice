@@ -4,7 +4,9 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
     <changeSet id="1.0.0" author="alenaKilikli">
+
         <!--ACCOUNTS -->
+
         <createTable tableName="accounts">
             <column name="id" type="uuid">
                 <constraints primaryKey="true"/>
@@ -13,7 +15,7 @@
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="creation_date" type="DATETIME" defaultValue="NOW()">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="first_name" type="varchar(255)">
                 <constraints nullable="false"/>
@@ -31,26 +33,22 @@
             <column name="amounts" type="DECIMAL">
                 <constraints nullable="false"/>
             </column>
-<!--            <column name="transaction_id" type="bigint">-->
-<!--                <constraints referencedTableName="transactions"-->
-<!--                             foreignKeyName="ACCOUNTS_ID_TRANSACTIONS_ID"/>-->
-<!--            </column>-->
-
         </createTable>
 
         <!--TRANSACTIONS -->
+
         <createTable tableName="transactions">
             <column name="id" type="uuid">
                 <constraints primaryKey="true"/>
             </column>
             <column name="date_time" type="DATETIME" defaultValue="NOW()">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="transactions_type" type="varchar">
                 <constraints nullable="true"/>
             </column>
             <column name="transactions_status" type="varchar">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="amount" type="DECIMAL">
                 <constraints nullable="false"/>
@@ -61,11 +59,22 @@
             <column name="account_to" type="varchar">
                 <constraints nullable="false"/>
             </column>
+        </createTable>
+
+        <!--   ACCOUNTS-TRANSACTIONS   -->
+
+        <createTable tableName="accounts_transactions">
             <column name="account_id" type="uuid">
-                <constraints referencedTableName="accounts(id)"
-                                foreignKeyName="TRANSACTIONS_ACCOUNT_ACCOUNTS_ID"
-                unique="true" nullable="false"
-                />
+                <constraints
+                        foreignKeyName="ACCOUNTS_ID_TRANSACTIONS_ID"
+                        referencedTableName="accounts"
+                        referencedColumnNames="id"/>
+            </column>
+            <column name="transactions_id" type="uuid">
+                <constraints
+                        foreignKeyName="TRANSACTIONS_ID_ACCOUNTS_ID"
+                        referencedTableName="transactions"
+                        referencedColumnNames="id"/>
             </column>
         </createTable>
 

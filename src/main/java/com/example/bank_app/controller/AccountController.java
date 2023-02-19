@@ -48,8 +48,8 @@ public class AccountController {
 
     @PutMapping("/accounts/transfer")
     @ResponseStatus(HttpStatus.OK)
-    public void transferMoney(@Uuid @RequestParam(value = "idFrom", required = false) String fromAccount,
-                              @Uuid @RequestParam(value = "idTo", required = false) String toAccount,
+    public void transferMoney(@Uuid @RequestParam(value = "idFrom", required = false) UUID fromAccount,
+                              @Uuid @RequestParam(value = "idTo", required = false) UUID toAccount,
                               @RequestParam(value = "amount", required = false) BigDecimal amount) {
         accountService.transfer(fromAccount, toAccount, amount);
     }

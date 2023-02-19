@@ -23,7 +23,10 @@
             <column name="amount" value="2000"/>
             <column name="account_from" value="199e4567-e89b-12d3-a456-426655440000"/>
             <column name="account_to" value="188e4567-e89b-12d3-a456-426655440000"/>
-        <column name="account_id" value="133e4999-e22b-12d3-a456-411055840002"/>
         </insert>
+    <insert tableName="accounts_transactions">
+        <column name="account_id" value="133e4999-e22b-12d3-a456-411055840001"/>
+        <column name="transactions_id" value="aaaabbbb-0000-9999-8888-777766665555"/>
+    </insert>
     </changeSet>
 </databaseChangeLog>

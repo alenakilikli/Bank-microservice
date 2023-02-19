@@ -10,7 +10,8 @@ import java.util.Arrays;
 @Getter
 public enum TransactionStatus {
     APPROVED(1,"approved"),
-    DENIED(2,"denied");
+    DENIED(2,"denied"),
+    PENDING(3,"pending");
 
     private final Integer id;
     private final String name;

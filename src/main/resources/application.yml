@@ -1,23 +1,20 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/bank
-    username: postgres
-    password: root
+    url: ${datasource.url}
+    username: ${datasource.username}
+    password: ${datasource.password}
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
+      physical_naming_strategy: "io.micronaut.data.hibernate.naming.DefaultPhysicalNamingStrategy"
     show-sql: true
 
   liquibase:
-    enabled: true
     change-log: db/changelog/db.changelog.xml
+    enabled: true
     drop-first: true
 
-server:
-  port: 8081
-  error:
-    whitelabel:
-      enabled: false
-
+  server:
+    url:${server.url}
 

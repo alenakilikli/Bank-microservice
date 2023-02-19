@@ -57,7 +57,7 @@ public class Account {
     private String email;
 
     @Column(name = "creation_date")
-    @JsonFormat(pattern = "yyyy-MM-dd",shape = JsonFormat.Shape.STRING)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Instant creationDate;
 
     @Column(name = "first_name")
@@ -75,7 +75,7 @@ public class Account {
     @Column(name = "amounts")
     private BigDecimal amountOfMoney;
 
-    @OneToMany(mappedBy = "account")
+    @ManyToMany
     private List<Transaction> transactions;
 
 }

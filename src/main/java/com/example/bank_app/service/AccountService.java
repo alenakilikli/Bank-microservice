@@ -17,6 +17,6 @@ public interface AccountService {
 
     void update(UUID id, AccountRequestDto dto);
 
-    void transfer(String fromAccount, String toAccount, BigDecimal amount);
+    void transfer( UUID fromAccount, UUID toAccount, BigDecimal amount);
 
 }

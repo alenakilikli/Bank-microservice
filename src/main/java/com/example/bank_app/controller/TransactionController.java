@@ -1,5 +1,6 @@
 package com.example.bank_app.controller;
 
+import com.example.bank_app.dto.transactiondto.TransactionRequestDto;
 import com.example.bank_app.dto.transactiondto.TransactionResponseDto;
 import com.example.bank_app.service.TransactionService;
 import com.example.bank_app.validation.annotation.Uuid;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,14 +20,26 @@ public class TransactionController {
     @GetMapping("/transactions")
     @ResponseStatus(HttpStatus.OK)
     public List<TransactionResponseDto> getTransactions(@RequestParam(value = "date", required = false) String date,
-                                                        @RequestParam(value = "type", required = false) String type) {
-        return transactionService.getTransaction(date, type);
+                                                        @RequestParam(value = "type", required = false) List<String> type,
+                                                        @RequestParam(value = "sort", defaultValue = "dateTime") String sort) {
+        return transactionService.getTransactions(date, type,sort);
     }
 
     @GetMapping("/transactions/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public TransactionResponseDto showAccountById(@Uuid @PathVariable Long id) {
-        return transactionService.findTransactionById(id);
+    public TransactionResponseDto showAccountById(@Uuid @PathVariable String id) {
+        return transactionService.findTransactionById(UUID.fromString(id));
+    }
+    @GetMapping("/transactions/account/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<TransactionResponseDto> showTransactionsByAccountId(@PathVariable("id") String fromAccount) {
+        return transactionService.findTransactionsById(UUID.fromString(fromAccount));
+    }
+
+    @PostMapping("/transactions")
+    @ResponseStatus(HttpStatus.CREATED)
+    public TransactionResponseDto create(@RequestBody TransactionRequestDto transactionRequestDto) {
+        return transactionService.createTransaction(transactionRequestDto);
     }
 
 }

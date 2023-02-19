@@ -1,6 +1,7 @@
 package com.example.bank_app.dto.accountdto;
 
 import com.example.bank_app.validation.annotation.Uuid;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -16,7 +17,7 @@ public class AccountResponseDto {
 
     private String email;
 
-    // @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private String creationDate;
 
     private String firstName;
