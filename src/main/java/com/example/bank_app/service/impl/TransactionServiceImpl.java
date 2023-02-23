@@ -44,18 +44,18 @@ public class TransactionServiceImpl implements TransactionService {
                     .filter(transaction -> transaction.getDateTime().equals(instant))
                     .collect(Collectors.toList());
         }
-
-        if (types != null) {
-            transactions = transactions.stream()
-                    .filter(transaction -> types.contains(transaction.getType().toString()))
-                    .collect(Collectors.toList());
-        }
-
-        if (sort.equals("-dateTime")) {
-            transactions.sort(Comparator.comparing(Transaction::getDateTime).reversed().thenComparing(Transaction::getId));
-        } else {
-            transactions.sort(Comparator.comparing(Transaction::getDateTime).thenComparing(Transaction::getId));
-        }
+//
+//        if (types != null) {
+//            transactions = transactions.stream()
+//                    .filter(transaction -> types.contains(transaction.getType().toString()))
+//                    .collect(Collectors.toList());
+//        }
+//
+//        if (sort.equals("-dateTime")) {
+//            transactions.sort(Comparator.comparing(Transaction::getDateTime).reversed().thenComparing(Transaction::getId));
+//        } else {
+//            transactions.sort(Comparator.comparing(Transaction::getDateTime).thenComparing(Transaction::getId));
+//        }
 
         return transactionMapper.transactionsToDto(transactions);
     }
@@ -67,13 +67,4 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionMapper.transactionToDto(transaction);
     }
 
-    @Override
-    public List<TransactionResponseDto> findTransactionsById(UUID id) {
-        List<Transaction> transactions = transactionRepository.findAll();
-        var list = transactions.stream().filter(transaction -> transaction.getAccountFrom().equals(id.toString())).toList();
-        //TODO METHOD RETURN JUST ACCOUNTfROM, MAKE ALSO ACCOUNTTO
-
-
-        return transactionMapper.transactionsToDto(list);
-    }
 }

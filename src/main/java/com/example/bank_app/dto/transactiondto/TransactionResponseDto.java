@@ -14,7 +14,7 @@ import java.time.Instant;
 @AllArgsConstructor
 public class TransactionResponseDto {
 
-    private Instant dateTime;
+    private String dateTime;
 
     private TransactionStatus status;
 

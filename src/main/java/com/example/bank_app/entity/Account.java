@@ -16,37 +16,13 @@ import java.util.UUID;
 @Setter
 @Getter
 @Builder
+@ToString
+@EqualsAndHashCode
 @AllArgsConstructor
 @Entity
 @Table(name = "accounts")
 @NoArgsConstructor
 public class Account {
-    @Override
-    public String toString() {
-        return "Account{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", creationDate=" + creationDate +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", country='" + country + '\'' +
-                ", city='" + city + '\'' +
-                ", amountOfMoney=" + amountOfMoney +
-                ", transactions=" + transactions +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Account account)) return false;
-        return Objects.equals(id, account.id) && Objects.equals(email, account.email) && Objects.equals(creationDate, account.creationDate) && Objects.equals(firstName, account.firstName) && Objects.equals(lastName, account.lastName) && Objects.equals(country, account.country) && Objects.equals(city, account.city) && Objects.equals(amountOfMoney, account.amountOfMoney) && Objects.equals(transactions, account.transactions);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, email, creationDate, firstName, lastName, country, city, amountOfMoney, transactions);
-    }
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -77,7 +53,7 @@ public class Account {
     @Column(name = "amounts")
     private BigDecimal amountOfMoney;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "accounts")
     private List<Transaction> transactions;
 
 }

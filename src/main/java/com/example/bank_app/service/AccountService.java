@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface AccountService {
 
-    AccountResponseDto createAccount(AccountRequestDto accountRequestDto);
+    void createAccount(AccountRequestDto accountRequestDto);
 
     List<AccountResponseDto> getAccounts(String city, String date);
 

@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class EntityCreator {
 
-    public static Account getAccount() {
+    public static Account getAccount1() {
         return Account.builder()
                 .id(UUID.fromString("999f4567-e89b-12d3-a456-426655448800"))
                 .email("alp@gmail.com")
@@ -23,6 +23,7 @@ public class EntityCreator {
                 .amountOfMoney(BigDecimal.valueOf(1000))
                 .build();
     }
+
 
     public static Transaction getTransaction() {
         return Transaction.builder()

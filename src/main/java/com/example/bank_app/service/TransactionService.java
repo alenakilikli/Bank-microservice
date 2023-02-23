@@ -14,5 +14,4 @@ public interface TransactionService {
 
     TransactionResponseDto findTransactionById(UUID id);
 
-    List<TransactionResponseDto>findTransactionsById(UUID id);
 }

@@ -6,9 +6,8 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
-      physical_naming_strategy: "io.micronaut.data.hibernate.naming.DefaultPhysicalNamingStrategy"
-    show-sql: true
+      ddl-auto: none
+      show-sql: true
 
   liquibase:
     change-log: db/changelog/db.changelog.xml

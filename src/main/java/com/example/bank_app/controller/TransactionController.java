@@ -22,7 +22,7 @@ public class TransactionController {
     public List<TransactionResponseDto> getTransactions(@RequestParam(value = "date", required = false) String date,
                                                         @RequestParam(value = "type", required = false) List<String> type,
                                                         @RequestParam(value = "sort", defaultValue = "dateTime") String sort) {
-        return transactionService.getTransactions(date, type,sort);
+        return transactionService.getTransactions(date, type, sort);
     }
 
     @GetMapping("/transactions/{id}")
@@ -30,11 +30,8 @@ public class TransactionController {
     public TransactionResponseDto showAccountById(@Uuid @PathVariable String id) {
         return transactionService.findTransactionById(UUID.fromString(id));
     }
-    @GetMapping("/transactions/account/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<TransactionResponseDto> showTransactionsByAccountId(@PathVariable("id") String fromAccount) {
-        return transactionService.findTransactionsById(UUID.fromString(fromAccount));
-    }
+
+
 
     @PostMapping("/transactions")
     @ResponseStatus(HttpStatus.CREATED)

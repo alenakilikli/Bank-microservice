@@ -4,7 +4,9 @@ public class ErrorMessage {
 
     public static final String ACCOUNT_SHOULD_NOT_BE_NULL = "Account should not be null";
 
-    public static final String BALANCE_SHOULD_BE_GREATER_THAN_AMOUNT_OF_SENDING_MONEY="account not found";
+    public static final String BALANCE_SHOULD_BE_GREATER_THAN_AMOUNT_OF_SENDING_MONEY = "not enough money";
+
+    public static final String ACCOUNT_NOT_FOUND = "account not found";
 
 }
 

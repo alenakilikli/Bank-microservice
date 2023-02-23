@@ -5,13 +5,14 @@ import com.example.bank_app.dto.accountdto.AccountResponseDto;
 import com.example.bank_app.entity.Account;
 import com.example.bank_app.entity.Transaction;
 import com.example.bank_app.entity.enums.TransactionType;
+import com.example.bank_app.exception.AccountNotExistsException;
+import com.example.bank_app.exception.AccountNotFoundException;
 import com.example.bank_app.exception.BalanceNotEnoughException;
 import com.example.bank_app.exception.ErrorMessage;
 import com.example.bank_app.mapper.AccountMapper;
 import com.example.bank_app.repository.AccountRepository;
 import com.example.bank_app.repository.TransactionRepository;
 import com.example.bank_app.service.AccountService;
-import com.example.bank_app.validation.annotation.Uuid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -34,11 +35,10 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
-    public AccountResponseDto createAccount(AccountRequestDto accountDto) {
+    public void createAccount(AccountRequestDto accountDto) {
         var account = accountMapper.dtoRequestToAccount(accountDto);
         account.setCreationDate(Instant.now());
         accountRepository.save(account);
-        return accountMapper.accountToDtoResponse(account);
     }
 
     public List<AccountResponseDto> getAccounts(String city, String date) {
@@ -48,8 +48,11 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountResponseDto getAccountById(String id) {
-        return accountMapper.accountToDtoResponse(findAccount(id));
+        return accountMapper.accountToDtoResponse(accountRepository
+                .findById(id)
+                .orElseThrow(()-> new AccountNotFoundException(ErrorMessage.ACCOUNT_NOT_FOUND)));
     }
+
 
     @Override
     public void update(UUID id, AccountRequestDto dto) {
@@ -94,9 +97,6 @@ public class AccountServiceImpl implements AccountService {
         transactionRepository.save(fromAccountTransaction);
         transactionRepository.save(toAccountTransaction);
 
-
-
-
     }
 
     private List<Account> getAccountsSort(String city, String date) {
@@ -113,7 +113,7 @@ public class AccountServiceImpl implements AccountService {
     private Account findAccount(String accountId) {
         var acc=accountRepository.findAccountById(UUID.fromString(accountId));
         if(acc==null){
-         throw new RuntimeException(ErrorMessage.ACCOUNT_SHOULD_NOT_BE_NULL);
+         throw new AccountNotExistsException(ErrorMessage.ACCOUNT_SHOULD_NOT_BE_NULL);
         }
         return acc;
     }

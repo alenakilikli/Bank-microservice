@@ -22,7 +22,7 @@ class AccountMapperTest {
 
     @Test
     void shouldMapAccountToDtoResponse() {
-        Account account = EntityCreator.getAccount();
+        Account account = EntityCreator.getAccount1();
         AccountResponseDto dto = accountMapper.accountToDtoResponse(account);
         compareEntityWithDto(account, dto);
 
@@ -39,7 +39,7 @@ class AccountMapperTest {
     @Test
     void shouldMapListToListDto() {
         List<Account> accountList = new ArrayList<>();
-        accountList.add(EntityCreator.getAccount());
+        accountList.add(EntityCreator.getAccount1());
         List<AccountResponseDto> accountRequestDtoList = accountMapper.accountsToDto(accountList);
         compareAccountListWithListDto(accountList, accountRequestDtoList);
     }
@@ -53,7 +53,7 @@ class AccountMapperTest {
 
     private void compareEntityWithDto(Account account, AccountResponseDto dto) {
         assertAll(
-                //()->assertEquals(account.getId().toString(),dto.getId()),
+                ()->assertEquals(account.getId().toString(),dto.getId()),
                 () -> assertEquals(account.getEmail(), dto.getEmail()),
                 () -> assertEquals(account.getFirstName(), dto.getFirstName()),
                 () -> assertEquals(account.getLastName(), dto.getLastName()),

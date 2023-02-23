@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.List;
 
 @AllArgsConstructor
@@ -15,13 +16,10 @@ import java.util.List;
 @Getter
 public class AccountRequestDto {
 
-//    @Uuid
-//    private String id;
+    @Uuid
+    private String id;
 
     private String email;
-//
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-//    private String creationDate;
 
     private String firstName;
 

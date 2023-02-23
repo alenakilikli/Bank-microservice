@@ -16,7 +16,6 @@ public class DtoCreator {
         return AccountRequestDto.builder()
                 .id("999f4567-e89b-12d3-a456-426655448800")
                 .email("alp@gmail.com")
-                //.creationDate("2022-02-15T18:35:24.00Z")
                 .firstName("Andrew")
                 .lastName("Makarow")
                 .country("Germany")
@@ -27,6 +26,7 @@ public class DtoCreator {
 
     public static AccountResponseDto getAccountResponseDto() {
         return AccountResponseDto.builder()
+                .id("999f4567-e89b-12d3-a456-426655448800")
                 .email("alp@gmail.com")
                 .creationDate("2022-02-15T18:35:24.00Z")
                 .firstName("Andrew")
@@ -39,7 +39,7 @@ public class DtoCreator {
 
     public static TransactionResponseDto getTransactionResponseDto() {
         return TransactionResponseDto.builder()
-                .dateTime(Instant.parse(String.valueOf(Instant.now())))
+                .dateTime(String.valueOf(Instant.now()))
                 .amount(BigDecimal.valueOf(100000))
                 .accountFrom("Acc1")
                 .accountTo("Acc2")

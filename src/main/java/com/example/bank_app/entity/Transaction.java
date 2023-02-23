@@ -13,12 +13,16 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 @Getter
 @Setter
 @Builder
+@ToString
+@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -41,7 +45,7 @@ public class Transaction {
     @Convert(converter = TransactionTypeConverter.class)
     private TransactionType type;
 
-    @Column(name = "transaction_status")
+    @Column(name = "transactions_status")
     @Enumerated(EnumType.STRING)
     @Convert(converter = TransactionStatusConverter.class)
     private TransactionStatus status;
@@ -55,33 +59,10 @@ public class Transaction {
     @Column(name = "account_to")
     private String accountTo;
 
+    @ManyToMany
+    @JoinTable(name = "transactions_accounts",
+            joinColumns = @JoinColumn(name = "transaction_id"),
+            inverseJoinColumns = @JoinColumn(name = "accounts_id"))
+    private List<Account> accounts = new ArrayList<>();
 
-    @Override
-    public String toString() {
-        return "Transaction{" +
-                "id=" + id +
-                ", dateTime=" + dateTime +
-                ", type=" + type +
-                ", status=" + status +
-                ", amount=" + amount +
-                ", accountFrom='" + accountFrom + '\'' +
-                ", accountTo='" + accountTo + '\'' +
-//                ", account=" + account +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Transaction that)) return false;
-        return Objects.equals(id, that.id) && Objects.equals(dateTime, that.dateTime) && type == that.type
-                && status == that.status && Objects.equals(amount, that.amount) &&
-                Objects.equals(accountFrom, that.accountFrom) && Objects.equals(accountTo, that.accountTo) ;
-                //&& Objects.equals(account, that.account);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, dateTime, type, status, amount, accountFrom, accountTo);
-    }
 }

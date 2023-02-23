@@ -19,8 +19,8 @@ public class UtilAccountServiceImpl {
     }
 
     public static void increaseBalance(BigDecimal amount, Account account) {
-        BigDecimal fromAccountBalance = account.getAmountOfMoney().add(amount);
-        account.setAmountOfMoney(fromAccountBalance);
+        BigDecimal toAccountBalance = account.getAmountOfMoney().add(amount);
+        account.setAmountOfMoney(toAccountBalance);
     }
 
     public static void setStatusApproved(Transaction fromTransaction) {
