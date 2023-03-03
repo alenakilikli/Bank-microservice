@@ -7,6 +7,7 @@ import com.example.bank_app.validation.annotation.Uuid;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Setter
 @Getter
@@ -16,7 +17,7 @@ import java.math.BigDecimal;
 public class TransactionRequestDto {
 
     @Uuid
-    private String id;
+    private UUID id;
 
     private TransactionStatus status;
 

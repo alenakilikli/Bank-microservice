@@ -2,10 +2,11 @@ package com.example.bank_app.dto.transactiondto;
 
 import com.example.bank_app.entity.enums.TransactionStatus;
 import com.example.bank_app.entity.enums.TransactionType;
+import com.example.bank_app.validation.annotation.Uuid;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.util.UUID;
 
 @Setter
 @Getter
@@ -13,6 +14,8 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransactionResponseDto {
+    @Uuid
+    private UUID id;
 
     private String dateTime;
 

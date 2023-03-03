@@ -30,7 +30,7 @@ class AccountMapperTest {
 
     @Test
     void shouldMapDtoRequestToAccount() {
-        AccountRequestDto dto = DtoCreator.getAccountRequestDto();
+        AccountRequestDto dto = DtoCreator.getAccountRequestDto1();
         dto.setCity("aaaa");
         Account account = accountMapper.dtoRequestToAccount(dto);
         assertEquals(account.getCity(), dto.getCity());

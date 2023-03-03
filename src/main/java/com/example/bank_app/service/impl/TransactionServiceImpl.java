@@ -33,13 +33,13 @@ public class TransactionServiceImpl implements TransactionService {
             Instant instant = Instant.parse(date);
             transactions = transactions.stream()
                     .filter(transaction -> transaction.getDateTime().equals(instant))
-                    .collect(Collectors.toList());
+                    .toList();
         }
 
         if (types != null) {
             transactions = transactions.stream()
                     .filter(transaction -> types.contains(transaction.getType().toString()))
-                    .collect(Collectors.toList());
+                    .toList();
         }
 
 

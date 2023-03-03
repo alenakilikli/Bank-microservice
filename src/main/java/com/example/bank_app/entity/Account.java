@@ -1,9 +1,9 @@
 package com.example.bank_app.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 import lombok.*;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -16,8 +16,6 @@ import java.util.UUID;
 @Setter
 @Getter
 @Builder
-@ToString
-@EqualsAndHashCode
 @AllArgsConstructor
 @Entity
 @Table(name = "accounts")
@@ -56,4 +54,29 @@ public class Account {
     @ManyToMany(mappedBy = "accounts")
     private List<Transaction> transactions;
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" +
+                "id = " + id + ", " +
+                "email = " + email + ", " +
+                "creationDate = " + creationDate + ", " +
+                "firstName = " + firstName + ", " +
+                "lastName = " + lastName + ", " +
+                "country = " + country + ", " +
+                "city = " + city + ", " +
+                "amountOfMoney = " + amountOfMoney + ")";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Account account = (Account) o;
+        return getId() != null && Objects.equals(getId(), account.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

@@ -35,10 +35,11 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
-    public void createAccount(AccountRequestDto accountDto) {
+    public AccountResponseDto createAccount(AccountRequestDto accountDto) {
         var account = accountMapper.dtoRequestToAccount(accountDto);
         account.setCreationDate(Instant.now());
         accountRepository.save(account);
+        return accountMapper.accountToDtoResponse(account);
     }
 
     public List<AccountResponseDto> getAccounts(String city, String date) {

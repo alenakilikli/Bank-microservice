@@ -26,7 +26,7 @@ public class TransactionController {
 
     @GetMapping("/transactions/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public TransactionResponseDto showAccountById(@Uuid @PathVariable String id) {
+    public TransactionResponseDto getById(@Uuid @PathVariable String id) {
         return transactionService.findTransactionById(UUID.fromString(id));
     }
 
