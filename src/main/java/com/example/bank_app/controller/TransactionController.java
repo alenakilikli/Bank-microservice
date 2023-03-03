@@ -20,23 +20,14 @@ public class TransactionController {
     @GetMapping("/transactions")
     @ResponseStatus(HttpStatus.OK)
     public List<TransactionResponseDto> getTransactions(@RequestParam(value = "date", required = false) String date,
-                                                        @RequestParam(value = "type", required = false) List<String> type,
-                                                        @RequestParam(value = "sort", defaultValue = "dateTime") String sort) {
-        return transactionService.getTransactions(date, type, sort);
+                                                        @RequestParam(value = "type", required = false) List<String> type) {
+        return transactionService.getTransactions(date, type);
     }
 
     @GetMapping("/transactions/{id}")
     @ResponseStatus(HttpStatus.OK)
     public TransactionResponseDto showAccountById(@Uuid @PathVariable String id) {
         return transactionService.findTransactionById(UUID.fromString(id));
-    }
-
-
-
-    @PostMapping("/transactions")
-    @ResponseStatus(HttpStatus.CREATED)
-    public TransactionResponseDto create(@RequestBody TransactionRequestDto transactionRequestDto) {
-        return transactionService.createTransaction(transactionRequestDto);
     }
 
 }

@@ -28,16 +28,15 @@ public class AccountController {
 
     @GetMapping("/accounts")
     @ResponseStatus(HttpStatus.OK)
-    public List<AccountResponseDto> getAccounts(@RequestParam(value = "date", required = false) String date,
-                                                @RequestParam(value = "city", required = false) String city) {
-        return accountService.getAccounts(date, city);
+    public List<AccountResponseDto> getAccounts(@RequestParam(value = "city", required = false) String city, @RequestParam(value = "date", required = false) String date) {
+        return accountService.getAccounts(city, date);
 
     }
 
 
     @GetMapping("/accounts/{id}")
     public AccountResponseDto showAccountById(@Uuid @PathVariable String id) {
-        return accountService.getAccountById(id);
+        return accountService.getAccountById(UUID.fromString(id));
     }
 
     @PatchMapping("/accounts/{id}")

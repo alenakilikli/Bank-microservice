@@ -18,5 +18,5 @@ public interface AccountRepository extends JpaRepository<Account, String> {
 
     Account findAccountById(UUID id);
 
-    List<Account> findAllByCityIgnoreCaseOrderByCreationDate(String city);
+    List<Account> findAllByCityIgnoreCase(String city);
 }

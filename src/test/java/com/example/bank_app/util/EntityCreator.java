@@ -7,6 +7,7 @@ import com.example.bank_app.entity.enums.TransactionType;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class EntityCreator {
@@ -22,6 +23,19 @@ public class EntityCreator {
                 .city("Munchen")
                 .amountOfMoney(BigDecimal.valueOf(1000))
                 .build();
+    }
+
+    public static Account getAccount2() {
+        Account account2 = new Account();
+        account2.setId(UUID.fromString("12d72b50-1c7b-4f45-9bc1-ea9e9a95c8d5"));
+        account2.setCreationDate(Instant.parse("2022-02-15T18:35:24.00Z"));
+        account2.setEmail("does.doe@example.com");
+        account2.setFirstName("Anna");
+        account2.setLastName("Does");
+        account2.setCountry("US");
+        account2.setCity("Boston");
+        account2.setAmountOfMoney(BigDecimal.valueOf(2000));
+        return account2;
     }
 
 

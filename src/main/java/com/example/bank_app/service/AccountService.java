@@ -13,7 +13,7 @@ public interface AccountService {
 
     List<AccountResponseDto> getAccounts(String city, String date);
 
-    AccountResponseDto getAccountById(String id);
+    AccountResponseDto getAccountById(UUID id);
 
     void update(UUID id, AccountRequestDto dto);
 

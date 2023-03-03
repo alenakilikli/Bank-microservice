@@ -1,6 +1,5 @@
 package com.example.bank_app.service.impl;
 
-import com.example.bank_app.dto.transactiondto.TransactionRequestDto;
 import com.example.bank_app.dto.transactiondto.TransactionResponseDto;
 import com.example.bank_app.entity.Transaction;
 import com.example.bank_app.mapper.TransactionMapper;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
-import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -28,14 +26,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 
     @Override
-    public TransactionResponseDto createTransaction(TransactionRequestDto requestDto) {
-        Transaction transaction = transactionMapper.dtoToTransaction(requestDto);
-
-        return transactionMapper.transactionToDto(transactionRepository.save(transaction));
-    }
-
-    @Override
-    public List<TransactionResponseDto> getTransactions(String date, List<String> types, String sort) {
+    public List<TransactionResponseDto> getTransactions(String date, List<String> types) {
         List<Transaction> transactions = transactionRepository.findAll();
 
         if (date != null) {
@@ -44,18 +35,13 @@ public class TransactionServiceImpl implements TransactionService {
                     .filter(transaction -> transaction.getDateTime().equals(instant))
                     .collect(Collectors.toList());
         }
-//
-//        if (types != null) {
-//            transactions = transactions.stream()
-//                    .filter(transaction -> types.contains(transaction.getType().toString()))
-//                    .collect(Collectors.toList());
-//        }
-//
-//        if (sort.equals("-dateTime")) {
-//            transactions.sort(Comparator.comparing(Transaction::getDateTime).reversed().thenComparing(Transaction::getId));
-//        } else {
-//            transactions.sort(Comparator.comparing(Transaction::getDateTime).thenComparing(Transaction::getId));
-//        }
+
+        if (types != null) {
+            transactions = transactions.stream()
+                    .filter(transaction -> types.contains(transaction.getType().toString()))
+                    .collect(Collectors.toList());
+        }
+
 
         return transactionMapper.transactionsToDto(transactions);
     }

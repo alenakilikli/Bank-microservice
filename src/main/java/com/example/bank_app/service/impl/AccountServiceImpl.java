@@ -47,28 +47,39 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountResponseDto getAccountById(String id) {
-        return accountMapper.accountToDtoResponse(accountRepository
+    public AccountResponseDto getAccountById(UUID id) {
+        return accountMapper.accountToDtoResponse((Account) accountRepository
                 .findById(id)
-                .orElseThrow(()-> new AccountNotFoundException(ErrorMessage.ACCOUNT_NOT_FOUND)));
+                .orElseThrow(() -> new AccountNotFoundException(ErrorMessage.ACCOUNT_NOT_FOUND)));
     }
 
 
     @Override
     public void update(UUID id, AccountRequestDto dto) {
         Account account = (Account) accountRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        account.setEmail(dto.getEmail());
+
+        if (dto.getFirstName() != null) {
+            account.setFirstName(dto.getFirstName());
+        }
+        if (dto.getLastName() != null) {
+            account.setLastName(dto.getLastName());
+        }
+        if (dto.getCountry() != null) {
+            account.setCountry(dto.getCountry());
+        }
+        if (dto.getCity() != null) {
+            account.setCity(dto.getCity());
+        }
+        if (dto.getEmail() != null) {
+            account.setEmail(dto.getEmail());
+        }
+
         account.setCreationDate(Instant.now());
-        account.setFirstName(dto.getFirstName());
-        account.setLastName(dto.getLastName());
-        account.setCountry(dto.getCountry());
-        account.setCity(dto.getCity());
-        account.setAmountOfMoney(dto.getAmountOfMoney());
         accountRepository.save(account);
     }
 
     @Override
-    public void transfer(UUID fromAccountId,  UUID toAccountId, BigDecimal amount) {
+    public void transfer(UUID fromAccountId, UUID toAccountId, BigDecimal amount) {
 
         Account fromAccount = findAccount(String.valueOf(fromAccountId));
 
@@ -104,16 +115,16 @@ public class AccountServiceImpl implements AccountService {
         if (date != null) {
             accounts = accountRepository.findAllByCreationDate(Instant.parse(date));
         } else if (city != null) {
-            accounts = accountRepository.findAllByCityIgnoreCaseOrderByCreationDate(city);
+            accounts = accountRepository.findAllByCityIgnoreCase(city);
         } else accounts = accountRepository.findAll();
 
         return accounts;
     }
 
     private Account findAccount(String accountId) {
-        var acc=accountRepository.findAccountById(UUID.fromString(accountId));
-        if(acc==null){
-         throw new AccountNotExistsException(ErrorMessage.ACCOUNT_SHOULD_NOT_BE_NULL);
+        var acc = accountRepository.findAccountById(UUID.fromString(accountId));
+        if (acc == null) {
+            throw new AccountNotExistsException(ErrorMessage.ACCOUNT_SHOULD_NOT_BE_NULL);
         }
         return acc;
     }

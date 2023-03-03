@@ -8,9 +8,7 @@ import java.util.UUID;
 
 public interface TransactionService {
 
-    TransactionResponseDto createTransaction(TransactionRequestDto requestDto);
-
-    List<TransactionResponseDto> getTransactions(String date, List<String> types, String sort);
+    List<TransactionResponseDto> getTransactions(String date, List<String> types);
 
     TransactionResponseDto findTransactionById(UUID id);
 
